@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+	<style>
+		.node {
+			display: flex;
+			align-items: center;
+			width: 60px;
+			height: 20px;
+			border: 1px solid darkred;
+			box-sizing: border-box;
+			padding: 0 5px;
+		}
+	</style>
+</head>
+<body>
+
+	<div id="tree">
+
+	</div>
+
+	<script>
+		const a = {
+		    value: 'A',
+			children: [
+				{
+				    value: 'AA',
+					children: [
+						{
+						    value: 'AAA'
+						}
+					]
+				},
+				{
+				    value: 'AB',
+					children: [
+						{
+						    value: 'ABA'
+						},
+						{
+						    value: 'ABB'
+						},
+						{
+							value: 'ABC'
+						}
+					]
+				}
+			]
+		};
+
+		function createNodeElement(nodeConfig) {
+			const nodeEl = document.createElement('div');
+			nodeEl.className = 'node';
+			nodeEl.style.position = 'absolute';
+			nodeEl.style.left = nodeConfig.left + 'px';
+			nodeEl.style.top = nodeConfig.top + 'px';
+			nodeEl.textContent = nodeConfig.node.value;
+			return nodeEl;
+		}
+
+		function createConnector(fromNode, toNode) {
+		    const ns = 'http://www.w3.org/2000/svg';
+		    const width = 100;
+		    const height = 100;
+
+			const connector = document.createElementNS(ns, 'svg');
+			connector.setAttributeNS(null, 'viewBox', `0 0 ${width} ${height}`);
+			connector.setAttributeNS(null, 'width', String(width));
+			connector.setAttributeNS(null, 'height', String(height));
+			return connector;
+		}
+
+		const nodeWidth = 60;
+		const verticalGap = 20;
+		const horizontalGap = 20;
+
+		const configs = new Map();
+
+		function processTree(tree) {
+		    let list = [];
+
+		    function process(node, offsetTop, offsetLeft) {
+		        if ('children' in node) {
+		            node.children.forEach((childNode, i) => {
+		                const prevChildNode = i === 0
+							? null
+							: node.children[i - 1];
+		                process(childNode, configs[node].offsetTop, prevChildNode);
+					});
+				}
+
+				list.push({
+					node,
+					left: 0,
+					top: 0
+				});
+			}
+
+			process(tree, null, null);
+		}
+
+		const treeEl = document.getElementById('tree');
+		processTree(a).map(createNodeElement).forEach(el => treeEl.appendChild(el));
+	</script>
+
+</body>
+</html>
+

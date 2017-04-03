@@ -1,0 +1,92 @@
+@import "styles/variables"
+
+html,
+body
+	height: 100%
+
+body
+	margin: 0
+	font-family: Verdana
+
+.app
+	height: 100%
+
+.editor
+	display: flex
+	flex-direction: column
+	height: 100%
+	background-color: #e4edf0
+
+.editor__scene
+	align-content: center
+	flex: 1
+	display: flex
+	justify-content: center
+	align-items: center
+
+.editor__input
+	display: flex
+	padding: 20px
+	align-items: center
+
+	input[type="text"]
+		flex: 1
+		border: none
+		font: 20px Monaco, monospace
+		margin: 0
+		padding: 10px
+		box-sizing: border-box
+		outline: none
+
+.graph
+	//width: 100px
+	//height: 100px
+	//background-color: red
+
+
+.special-symbol
+	color: #bd0fe1
+	background-color: rgba(#bd0fe1, .06)
+	//background-color: #f8e7fb
+	border: 1px solid rgba(#bd0fe1, .15)
+	border-radius: 4px
+	font-size: .7em
+	padding: .2em .6em
+	text-transform: uppercase
+	i
+		font-style: normal
+		&:not(:last-child)
+			margin-right: .08em
+
+.unicode-symbol
+	font-family: Monaco, monospace
+	color: #50e3c2
+	i
+		opacity: .5
+
+
+.node
+	margin: 0
+	font-size: 16px
+	padding: 4px 8px
+	border-radius: 4px
+	background-color: transparent
+	border: 2px solid transparent
+	outline: none
+
+	.delim
+		opacity: .4
+
+	&:hover
+		border-color: #45c0fe
+		background-color: rgba(#45c0fe, .1)
+		box-sizing: border-box
+
+
+.checkbox
+	display: inline-flex
+	font-size: 12px
+	align-items: center
+	margin-right: 10px
+	span
+		flex: 1
