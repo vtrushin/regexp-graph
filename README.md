@@ -1,6 +1,6 @@
-# syntax-tree-viewer
+# regexp-editor
 
-https://rawgit.com/vtrushin/syntax-tree-viewer/master/dist/index.html
+https://rawgit.com/vtrushin/regexp-editor/0.0.1/dist/index.html
 
 
 ## Types
