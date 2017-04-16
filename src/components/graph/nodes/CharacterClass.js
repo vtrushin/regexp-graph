@@ -1,9 +1,10 @@
 import React from 'react';
+import AbstractGraphNode from './AbstractGraphNode';
 import nodeByType from '../node-by-type';
 import getUniqueNodeKey from '../get-unique-node-key';
 import './CharacterClass.sass';
 
-export default class CharacterClass extends React.Component {
+export default class CharacterClass extends AbstractGraphNode {
 	render() {
 		const classNames = ['character-class'];
 		let title;

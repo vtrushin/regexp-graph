@@ -9,7 +9,8 @@ export default class App extends React.Component {
 		super(props);
 
 		this.state = {
-			value: '^\\b([abcd]+b|\\d+|[^\\da-f]+h)\\b(?=s)$',
+			// value: '^\\b([abcd]+b|\\d+|[^\\da-f]+h)\\b(?=s)$',
+			value: 'a|b|cc|def',
 			ignoreCase: true
 		};
 
@@ -20,6 +21,7 @@ export default class App extends React.Component {
 		let tree;
 		try {
 			tree = parser.parse(this.state.value);
+			console.log('tree', tree);
 			const Node = nodeByType[tree.type];
 			return <Node data={ tree }/>;
 		} catch (e) {
@@ -41,7 +43,6 @@ export default class App extends React.Component {
 						type="text"
 						value={ this.state.value }
 						onChange={ (event) => {
-							console.log(event.target.value);
 							this.setState({
 								value: event.target.value
 							});
@@ -61,8 +62,8 @@ export default class App extends React.Component {
 								type="checkbox"
 								checked={ this.state.ignoreCase }
 								onChange={ () => {
-									this.setState({ ignoreCase: !this.state.ignoreCase
-
+									this.setState({
+										ignoreCase: !this.state.ignoreCase
 									})
 								}}
 							/>

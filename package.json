@@ -28,6 +28,7 @@
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "regjsparser": "^0.2.1",
+    "resize-observer-polyfill": "^1.4.2",
     "sass-loader": "^6.0.3",
     "style-loader": "^0.14.0",
     "webpack": "^2.2.0",

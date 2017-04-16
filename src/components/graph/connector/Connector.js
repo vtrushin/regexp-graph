@@ -1,8 +1,8 @@
 import React from 'react'
-import {path, moveTo, lineTo} from '../../utils/svg-path'
+import {path, moveTo, lineTo} from '../../../utils/svg-path'
 import './Connector.sass'
 
-const strokeWidth = 5;
+const strokeWidth = 3;
 
 export default class Connector extends React.Component {
 

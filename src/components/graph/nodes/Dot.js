@@ -1,13 +1,14 @@
 import React from 'react';
-import AbstractValue from './AbstractValue';
+import AbstractGraphNode from './AbstractGraphNode';
+// import AbstractValue from './AbstractValue';
 import './Dot.sass';
 
-export default class Dot extends React.Component {
+export default class Dot extends AbstractGraphNode {
 	render() {
 		return (
-			<AbstractValue>
+			<span className="value" ref={ el => this.el = el }>
 				<span className="dot">any</span>
-			</AbstractValue>
+			</span>
 		);
 	}
 }

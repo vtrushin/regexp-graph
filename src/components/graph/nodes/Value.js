@@ -1,5 +1,6 @@
 import React from 'react';
-import AbstractValue from './AbstractValue';
+import AbstractGraphNode from './AbstractGraphNode';
+// import AbstractValue from './AbstractValue';
 import './Value.sass';
 
 const specials = new Map([
@@ -10,10 +11,13 @@ const specials = new Map([
 	[32, 'space']
 ]);
 
-export default class Value extends React.Component {
+export default class Value extends AbstractGraphNode {
 	constructor() {
 		super();
-		this.renderSymbol = this.renderSymbol.bind(this);
+		this.el = null;
+		this.width = 0;
+		this.height = 0;
+		// this.guid = 'input-ui-' + Math.random();
 	}
 
 	renderSymbol() {
@@ -28,9 +32,13 @@ export default class Value extends React.Component {
 
 	render() {
 		return (
-			<AbstractValue>
+			<span
+				className="value"
+				ref={ el => this.el = el }
+				style={ this.props.style }
+			>
 				{ this.renderSymbol() }
-			</AbstractValue>
+			</span>
 		);
 	}
 }

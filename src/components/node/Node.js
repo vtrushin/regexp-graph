@@ -19,14 +19,6 @@ export default class Node extends React.Component {
 		this.height = 0;
 	}
 
-	get componentWidth() {
-		return this.width;
-	}
-
-	get componentHeight() {
-		return this.height;
-	}
-
 	componentDidMount() {
 		if (this.props.onDimensionsChanged) {
 			const { width, height } = this.el.getBoundingClientRect();

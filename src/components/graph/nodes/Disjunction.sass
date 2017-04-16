@@ -1,10 +1,15 @@
 .disjunction
+	position: relative
 	display: flex
 	flex-direction: column
 	align-items: flex-start
-	& > *
+	border: 1px solid red
+	padding: 0 100px
+	& > *:not(:last-of-type)
 		margin-bottom: 10px
 
-.disjunction__child-wrapper:not(:last-child)
-	border-right: 1px solid #eee
+.disjunction__child-wrapper
+	position: relative
+	&:not(:last-child)
+		border-right: 1px solid #eee
 
