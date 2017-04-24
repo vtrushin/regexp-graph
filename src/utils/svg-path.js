@@ -35,5 +35,5 @@ export function close() {
 }
 
 export function path(...commands) {
-	return commands.join(', ');
+	return commands.join(',');
 }

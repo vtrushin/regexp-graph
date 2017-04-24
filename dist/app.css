@@ -19,8 +19,6 @@
   text-transform: uppercase; }
 .character-class-range__delimiter {
   opacity: .3; }
-.quantifier {
-  border: 1px solid turquoise; }
 .group {
   margin: 0 5px; }
   .group._lookahead, .group._negativeLookahead {
@@ -35,14 +33,13 @@
 .connector {
   position: absolute; }
   .connector path {
-    stroke: #333; }
+    stroke: #979797; }
 .disjunction {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  border: 1px solid red;
-  padding: 0 100px; }
+  padding: 0 50px; }
   .disjunction > *:not(:last-of-type) {
     margin-bottom: 10px; }
 
@@ -51,11 +48,12 @@
   .disjunction__child-wrapper:not(:last-child) {
     border-right: 1px solid #eee; }
 .character-class {
-  position: relative; }
+  position: relative;
+  padding: 5px;
+  border-radius: 12px; }
 
 .character-class__title {
-  position: absolute;
-  bottom: 100%;
+  display: inline-block;
   font-size: .6em;
   color: #989898;
   border-top-left-radius: 8px;
@@ -75,7 +73,7 @@
   padding: 2px; }
 
 .character-class._negative {
-  border: 1px solid red; }
+  background-color: rgba(255, 0, 0, 0.2); }
 
 .character-class__child-wrapper:not(:last-child) {
   border-right: 1px solid #eaeaea; }

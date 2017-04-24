@@ -1,111 +1,73 @@
 import React from 'react';
-import AbstractGraphNode from './AbstractGraphNode';
+import ReactDOM from 'react-dom';
 import Connector from '../connector/Connector';
+import measure from '../measure';
 import nodeByType from '../node-by-type';
 import getUniqueNodeKey from '../get-unique-node-key';
 import './Disjunction.sass';
 
-const PADDING = 100;
+const PADDING = 50;
 
-export default class Disjunction extends AbstractGraphNode {
-	constructor() {
-		super(...arguments);
-		this.state = {};
-	}
-
+class Disjunction extends React.Component {
 	renderConnectors() {
-		const {elDimensions} = this.state;
+		const list = [];
 
-		if (!elDimensions) {
-			return null;
+		if (this.props.containerRect && this.props.rects.size > 0) {
+			const rects = Array.from(this.props.rects.values());
+			const rectsMaxWidth = Math.max(...rects.map(rect => rect.width));
+
+			this.props.data.body.filter(node => node.raw !== '').forEach(node => {
+				const rect = this.props.rects.get(node);
+
+				if (!rect) {
+					return;
+				}
+
+				list.push(
+					<Connector
+						key={ Math.random() }
+						fromX={ 0 }
+						fromY={ this.props.containerRect.height / 2 }
+						toX={ PADDING }
+						toY={ rect.top - this.props.containerRect.top + rect.height / 2 }
+						turnOffset={ 25 }
+					/>,
+					<Connector
+						key={ Math.random() }
+						fromX={ PADDING + rect.width }
+						fromY={ rect.top - this.props.containerRect.top + rect.height / 2 }
+						toX={ this.props.containerRect.width }
+						toY={ this.props.containerRect.height / 2 }
+						turnOffset={ rectsMaxWidth - rect.width + 25 }
+					/>
+				)
+			})
 		}
 
-		/*if (!elDimensions || !this.state.childrenDimensions) {
-			return null;
-		}*/
-
-		const list = [];
-
-		// this.state.childrenDimensions.forEach(dimensions => {
-		this.props.data.body.forEach(node => {
-
-			console.log(1);
-
-			const dimensions = this.childrenDimensions.get(node.raw + node.type + node.kind);
-
-			console.log(this.childrenDimensions);
-
-			if (!dimensions) {
-				return;
-			}
-
-			list.push(
-				<Connector
-					key={ 'left' + dimensions.left + dimensions.top }
-					fromX={ 0 }
-					fromY={ elDimensions.height / 2 }
-					toX={ PADDING }
-					toY={ dimensions.top - elDimensions.top + dimensions.height / 2 }
-				/>,
-				<Connector
-					key={ 'right' + dimensions.left + dimensions.top }
-					fromX={ PADDING + dimensions.width }
-					fromY={ dimensions.top - elDimensions.top + dimensions.height / 2 }
-					toX={ elDimensions.width }
-					toY={ elDimensions.height / 2 }
-				/>
-			)
-		});
-
 		return list;
 	}
 
-	// componentWillReceiveProps(nextProps) {
-	// 	console.log(nextProps);
-	// }
-
 	renderChildren() {
-		const that = this;
-		const list = [];
-
-		this.props.data.body.forEach(node => {
+		return this.props.data.body.filter(node => node.raw !== '').map(node => {
 			const Node = nodeByType[node.type];
-			const NodeEl = (
-				<div className="disjunction__child-wrapper" key={ getUniqueNodeKey(node) }>
-					<Node
-						data={ node }
-						onDimensionsChanged={ dimensions => {
-							that.dimensionsHandler(node.raw + node.type + node.kind, dimensions);
-						}}
-					/>
-				</div>
+			return (
+				<Node
+					data={ node }
+					ref={ el => this.props.onRef(ReactDOM.findDOMNode(el), node) }
+					key={ getUniqueNodeKey(node) }
+				/>
 			);
-
-			list.push(NodeEl);
 		});
-
-		// if (this.state.childDimensions) {
-		// 	this.state.childDimensions.forEach((dimensions, node) => {
-		// 		if (!list.includes(node)) {
-		// 			this.state.childDimensions.delete(node);
-		// 		}
-        //
-		// 		// console.log(dimensions);
-		// 		// console.log(list.includes(node));
-		// 	})
-		// }
-
-		return list;
 	}
 
 	render() {
-		this.childrenLength = this.props.data.body.length;
-
 		return (
-			<div className="disjunction" ref={ el => this.el = el }>
+			<div className="disjunction">
 				{ this.renderConnectors() }
 				{ this.renderChildren() }
 			</div>
 		);
 	}
 }
+
+export default measure(Disjunction);

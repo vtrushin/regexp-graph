@@ -1,12 +1,10 @@
 import React from 'react';
-// import AbstractValue from './AbstractValue';
-import AbstractGraphNode from './AbstractGraphNode';
 import './Anchor.sass';
 
-export default class Anchor extends AbstractGraphNode {
+export default class Anchor extends React.Component {
 	render() {
 		return (
-			<span className="value" ref={ el => this.el = el }>
+			<span className="value">
 				{ this.props.data.kind }
 			</span>
 		);

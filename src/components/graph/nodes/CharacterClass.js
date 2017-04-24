@@ -1,10 +1,24 @@
 import React from 'react';
-import AbstractGraphNode from './AbstractGraphNode';
+import ReactDOM from 'react-dom';
+import measure from '../measure';
 import nodeByType from '../node-by-type';
 import getUniqueNodeKey from '../get-unique-node-key';
 import './CharacterClass.sass';
 
-export default class CharacterClass extends AbstractGraphNode {
+class CharacterClass extends React.Component {
+	renderChildren() {
+		return this.props.data.body.map(node => {
+			const Node = nodeByType[node.type];
+			return (
+				<Node
+					data={ node }
+					ref={ el => this.props.onRef(ReactDOM.findDOMNode(el), node) }
+					key={ getUniqueNodeKey(node) }
+				/>
+			);
+		});
+	}
+
 	render() {
 		const classNames = ['character-class'];
 		let title;
@@ -20,16 +34,11 @@ export default class CharacterClass extends AbstractGraphNode {
 			<div className={ classNames.join(' ') }>
 				<div className="character-class__title">{ title }</div>
 				<div className="character-class__children">
-					{ this.props.data.body.map(node => {
-						const Node = nodeByType[node.type];
-						return (
-							<div className="character-class__child-wrapper" key={ getUniqueNodeKey(node) }>
-								<Node data={ node } />
-							</div>
-						);
-					}) }
+					{ this.renderChildren() }
 				</div>
 			</div>
 		);
 	}
 }
+
+export default measure(CharacterClass);

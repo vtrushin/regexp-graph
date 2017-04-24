@@ -9,8 +9,8 @@ export default class App extends React.Component {
 		super(props);
 
 		this.state = {
-			// value: '^\\b([abcd]+b|\\d+|[^\\da-f]+h)\\b(?=s)$',
-			value: 'a|b|cc|def',
+			value: '^\\b([abcd]+b|\\d+|[^\\da-f]+h)\\b(?=s)$',
+			// value: 'a|b|c|e',
 			ignoreCase: true
 		};
 

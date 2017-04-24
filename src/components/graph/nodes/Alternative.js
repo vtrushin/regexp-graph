@@ -1,30 +1,33 @@
 import React from 'react';
-// import Measure from 'react-measure';
-// import clone from 'clone';
-import AbstractGraphNode from './AbstractGraphNode';
+import ReactDOM from 'react-dom';
+import measure from '../measure';
 import nodeByType from '../node-by-type';
 import getUniqueNodeKey from '../get-unique-node-key';
 import './Alternative.sass';
 
-export default class Alternative extends AbstractGraphNode {
-	constructor() {
-		super();
-		this.state = {
-			width: 0,
-			height: 0
-		};
+class Alternative extends React.Component {
+	renderChildren() {
+		return this.props.data.body.filter(node => node.raw !== '').map(node => {
+			const Node = nodeByType[node.type];
+			return (
+				<Node
+					data={ node }
+					ref={ el => this.props.onRef(ReactDOM.findDOMNode(el), node) }
+					key={ getUniqueNodeKey(node) }
+				/>
+			);
+		});
 	}
 
 	render() {
 		return (
-			<div className="alternative" ref={ el => this.el = el }>
+			<div className="alternative">
 				<div className="alternative__children">
-					{ this.props.data.body.map(node => {
-						const Node = nodeByType[node.type];
-						return <Node data={ node } key={ getUniqueNodeKey(node) } />;
-					}) }
+					{ this.renderChildren() }
 				</div>
 			</div>
 		);
 	}
 }
+
+export default measure(Alternative);

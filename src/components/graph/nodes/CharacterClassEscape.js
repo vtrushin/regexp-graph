@@ -1,6 +1,4 @@
 import React from 'react';
-import AbstractGraphNode from './AbstractGraphNode';
-// import AbstractValue from './AbstractValue';
 import './CharacterClassEscape.sass';
 
 const types = {
@@ -12,10 +10,10 @@ const types = {
 	'W': 'non-alphanumeric'
 };
 
-export default class CharacterClassEscape extends AbstractGraphNode {
+export default class CharacterClassEscape extends React.Component {
 	render() {
 		return (
-			<span className="value" ref={ el => this.el = el }>
+			<span className="value">
 				<span className="character-class-escape__symbol">
 					{ types[this.props.data.value] }
 				</span>

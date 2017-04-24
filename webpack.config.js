@@ -1,9 +1,10 @@
 const path = require('path');
-// const webpack = require('webpack');
+const webpack = require('webpack');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const WebpackNotifierPlugin = require('webpack-notifier');
 
 module.exports = {
+	// entry: './src/test.js',
 	entry: './src/App.js',
 	output: {
         path: path.resolve(__dirname, 'dist'),
@@ -30,6 +31,7 @@ module.exports = {
 	},
 	plugins: [
         new ExtractTextPlugin('app.css'),
+		// new webpack.optimize.UglifyJsPlugin(),
 		new WebpackNotifierPlugin()/*,
 		new webpack.ProvidePlugin({
 			React: 'react'
