@@ -1,5 +1,5 @@
-import React from 'react';
-import './CharacterClassEscape.sass';
+import { Component } from 'react'
+import './CharacterClassEscape.sass'
 
 const types = {
 	'd': 'digit',
@@ -8,16 +8,16 @@ const types = {
 	'S': 'non-space',
 	'w': 'alphanumeric',
 	'W': 'non-alphanumeric'
-};
+}
 
-export default class CharacterClassEscape extends React.Component {
+export default class CharacterClassEscape extends Component {
 	render() {
 		return (
-			<span className="value">
+			<span className="node value">
 				<span className="character-class-escape__symbol">
 					{ types[this.props.data.value] }
 				</span>
 			</span>
-		);
+		)
 	}
 }

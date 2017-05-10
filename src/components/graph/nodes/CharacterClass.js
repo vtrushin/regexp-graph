@@ -1,44 +1,45 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import measure from '../measure';
-import nodeByType from '../node-by-type';
-import getUniqueNodeKey from '../get-unique-node-key';
-import './CharacterClass.sass';
+import { Component } from 'react'
+import ReactDOM from 'react-dom'
+import measure from '../measure4'
+import nodeByType from '../node-by-type'
+import getNodeValues from '../get-node-values'
+import './CharacterClass.sass'
 
-class CharacterClass extends React.Component {
+class CharacterClass extends Component {
 	renderChildren() {
 		return this.props.data.body.map(node => {
-			const Node = nodeByType[node.type];
+			const Node = nodeByType[node.type]
 			return (
-				<Node
-					data={ node }
-					ref={ el => this.props.onRef(ReactDOM.findDOMNode(el), node) }
-					key={ getUniqueNodeKey(node) }
-				/>
-			);
-		});
+				<div className="character-class__child-wrapper" key={ getNodeValues(node) }>
+					<Node
+						{ ...this.props }
+						data={ node }
+					/>
+				</div>
+			)
+		})
 	}
 
 	render() {
-		const classNames = ['character-class'];
-		let title;
+		const classNames = ['node', 'character-class']
+		let title
 
 		if (this.props.data.negative) {
-			classNames.push('_negative');
-			title = 'None of';
+			classNames.push('_negative')
+			title = 'None of'
 		} else {
-			title = 'One of';
+			title = 'One of'
 		}
 
 		return (
 			<div className={ classNames.join(' ') }>
 				<div className="character-class__title">{ title }</div>
-				<div className="character-class__children">
+				<div className="character-class__children" ref={ this.props.onRef }>
 					{ this.renderChildren() }
 				</div>
 			</div>
-		);
+		)
 	}
 }
 
-export default measure(CharacterClass);
+export default measure(CharacterClass)

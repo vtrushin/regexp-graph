@@ -2,7 +2,6 @@
 
 https://rawgit.com/vtrushin/regexp-editor/0.0.1/dist/index.html
 
-
 ## Types
 
 ### value

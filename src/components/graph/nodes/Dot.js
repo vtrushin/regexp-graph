@@ -1,12 +1,12 @@
-import React from 'react';
-import './Dot.sass';
+import { Component } from 'react'
+import './Dot.sass'
 
-export default class Dot extends React.Component {
+export default class Dot extends Component {
 	render() {
 		return (
-			<span className="value">
+			<span className="node value">
 				<span className="dot">any</span>
 			</span>
-		);
+		)
 	}
 }
