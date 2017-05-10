@@ -1,0 +1,32 @@
+env:
+  browser: true
+  es6: true
+extends: 'eslint:recommended'
+parserOptions:
+  ecmaFeatures:
+    experimentalObjectRestSpread: true
+    jsx: true
+  sourceType: module
+plugins:
+  - react
+rules:
+  indent:
+    - error
+    - tab
+    - SwitchCase: 1
+  linebreak-style:
+    - error
+    - unix
+  quotes:
+    - error
+    - single
+  semi:
+    - error
+    - never
+  no-unused-vars:
+    - off
+    - vars: all
+      args: after-used
+  no-cond-assign:
+    - off
+
