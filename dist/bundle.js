@@ -2520,7 +2520,7 @@ function compareRects(rect1, rect2) {
 	return props.every(prop => rect1[prop] === rect2[prop]);
 }
 
-/* harmony default export */ __webpack_exports__["a"] = (Node => class Measure extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+/* unused harmony default export */ var _unused_webpack_default_export = (Node => class Measure extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 	constructor(props) {
 		super(props);
 
@@ -2587,6 +2587,8 @@ function compareRects(rect1, rect2) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__nodes_Disjunction__ = __webpack_require__(114);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__nodes_CharacterClass__ = __webpack_require__(111);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__nodes_Alternative__ = __webpack_require__(109);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__nodes_Reference__ = __webpack_require__(294);
+
 
 
 
@@ -2608,7 +2610,8 @@ function compareRects(rect1, rect2) {
 	group: __WEBPACK_IMPORTED_MODULE_6__nodes_Group__["a" /* default */],
 	disjunction: __WEBPACK_IMPORTED_MODULE_7__nodes_Disjunction__["a" /* default */],
 	characterClass: __WEBPACK_IMPORTED_MODULE_8__nodes_CharacterClass__["a" /* default */],
-	alternative: __WEBPACK_IMPORTED_MODULE_9__nodes_Alternative__["a" /* default */]
+	alternative: __WEBPACK_IMPORTED_MODULE_9__nodes_Alternative__["a" /* default */],
+	reference: __WEBPACK_IMPORTED_MODULE_10__nodes_Reference__["a" /* default */]
 });
 
 /***/ }),
@@ -12608,113 +12611,7 @@ function roundPathCorners(pathString, radius, useFractionalRadius) {
 }
 
 /***/ }),
-/* 108 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(React) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__get_node_values__ = __webpack_require__(285);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__get_unique_node_id__ = __webpack_require__(288);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__actions__ = __webpack_require__(39);
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-
-
-
-
-// import equal from 'deep-equal'
-// import rectToObject from './client-rect-to-object'
-
-function compareRects(rect1, rect2) {
-	const props = [/*'left', 'top', 'bottom', 'right', */'width', 'height'];
-	return props.every(prop => rect1[prop] === rect2[prop]);
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (Node => class Measure extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
-	constructor(props) {
-		super(props);
-
-		this.state = {};
-
-		this.onRef = this.onRef.bind(this);
-		// this.updateDimensions = this.updateDimensions.bind(this)
-	}
-
-	updateDimensions() {
-		// const points = {
-		// 	input: {
-		// 		x: rect.left,
-		// 		y: rect.top + rect.height / 2
-		// 	},
-		// 	output: {
-		// 		x: rect.right,
-		// 		y: rect.top + rect.height / 2
-		// 	}
-		// }
-
-		// const points = {
-		// 	startX: this.rect.left,
-		// 	endX: this.rect.right,
-		// 	y: this.rect.top + this.rect.height / 2
-		// }
-		//
-		// this.setState({
-		// 	...this.state,
-		// 	points
-		// })
-
-		const points = {
-			startX: this.rect.left,
-			endX: this.rect.right,
-			y: this.rect.top + this.rect.height / 2
-		};
-
-		const action = __WEBPACK_IMPORTED_MODULE_3__actions__["b" /* dimensionsChanged */](__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__get_unique_node_id__["a" /* default */])(this.props.data), points);
-
-		this.props.dispatch(action);
-	}
-
-	componentDidMount() {
-		this.rect = this.el.getBoundingClientRect();
-		this.updateDimensions();
-	}
-
-	reCalc() {
-		// this.rect = this.el.getBoundingClientRect()
-		// this.updateDimensions()
-	}
-
-	componentDidUpdate() {
-		const rect = this.el.getBoundingClientRect();
-		if (!compareRects(this.rect, rect)) {
-			this.rect = rect;
-			this.updateDimensions();
-		}
-	}
-
-	onRef(el) {
-		console.log('onRef', el);
-		this.el = el;
-	}
-
-	render() {
-		// const props = {
-		// 	...this.props,
-		// 	points: this.state.points,
-		// 	onRef: this.onRef,
-		// 	reCalc: this.reCalc
-		// }
-
-		return React.createElement(Node, _extends({}, this.props, {
-			points: this.state.points,
-			onRef: this.onRef
-		}));
-	}
-});
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(6)))
-
-/***/ }),
+/* 108 */,
 /* 109 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -12793,37 +12690,29 @@ class Alternative extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 	}
 
 	renderConnectors() {
-		if (!this.el || !this.props.dimensions) {
+		if (!this.state.childrenDimensions) {
 			return;
 		}
 
-		const containerRect = this.el.getBoundingClientRect();
 		const dimensions = [];
 
-		this.props.data.body.filter(node => node.raw !== '').forEach(node => {
-			const nodeDimensions = this.props.dimensions[__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__get_unique_node_id__["a" /* default */])(node)];
-
-			if (!nodeDimensions) {
-				return;
+		this.props.data.body.filter(node => node.raw !== '').forEach((node, i) => {
+			const nodeDimensions = this.state.childrenDimensions[i];
+			if (nodeDimensions) {
+				dimensions.push({
+					left: nodeDimensions.left - this.state.dimensions.left,
+					right: nodeDimensions.right - this.state.dimensions.left,
+					baseline: nodeDimensions.baseline + nodeDimensions.top - this.state.dimensions.top
+				});
 			}
-
-			// const rect = el.getBoundingClientRect()
-			//
-			// const nodeDimensions = {
-			// 	startX: rect.left,
-			// 	endX: rect.right,
-			// 	y: containerRect.top + containerRect.height / 2
-			// }
-
-			nodeDimensions.push(nodeDimensions);
 		});
 
 		return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__points_to_connectors__["a" /* default */])(dimensions).map(connector => React.createElement(__WEBPACK_IMPORTED_MODULE_2__connector_Connector__["a" /* default */], {
 			key: `${connector.start.x}:${connector.start.y}:${connector.end.x}:${connector.end.y}`,
-			fromX: connector.start.x - containerRect.left,
-			fromY: connector.start.y - containerRect.top,
-			toX: connector.end.x - containerRect.left,
-			toY: connector.end.y - containerRect.top
+			fromX: connector.start.x,
+			fromY: connector.start.y,
+			toX: connector.end.x,
+			toY: connector.end.y
 		}));
 	}
 
@@ -12861,6 +12750,7 @@ class Alternative extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 			React.createElement(
 				'div',
 				{ className: 'alternative__children', ref: el => this.childrenBody = el },
+				this.renderConnectors(),
 				this.renderChildren()
 			),
 			this.renderBaseline()
@@ -12959,13 +12849,11 @@ class Anchor extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 "use strict";
 /* WEBPACK VAR INJECTION */(function(React) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__measure4__ = __webpack_require__(108);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__node_by_type__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__get_node_values__ = __webpack_require__(285);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__CharacterClass_sass__ = __webpack_require__(132);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__CharacterClass_sass___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__CharacterClass_sass__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_by_type__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_deep_equal__ = __webpack_require__(125);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_deep_equal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_deep_equal__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__CharacterClass_sass__ = __webpack_require__(132);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__CharacterClass_sass___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__CharacterClass_sass__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 
@@ -12973,17 +12861,74 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 
-
-
 class CharacterClass extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
+	constructor(props) {
+		super(props);
+
+		this.childrenDimensions = {};
+
+		this.state = {
+			dimensions: null,
+			childrenDimensions: null
+		};
+	}
+
+	updateDimensions() {
+		const parentRect = this.el.getBoundingClientRect();
+		const childrenBodyRect = this.childrenBody.getBoundingClientRect();
+		const childrenBodyTop = childrenBodyRect.top - parentRect.top;
+		const baselines = Object.keys(this.childrenDimensions).map(key => childrenBodyTop + this.childrenDimensions[key].baseline);
+		const dimensions = {
+			left: parentRect.left,
+			right: parentRect.right,
+			top: parentRect.top,
+			width: parentRect.width,
+			height: parentRect.height,
+			baseline: Math.max(...baselines)
+		};
+
+		this.setState({
+			dimensions,
+			childrenDimensions: _extends({}, this.childrenDimensions)
+		});
+
+		if (this.props.onDimensionsChanged) {
+			this.props.onDimensionsChanged(dimensions);
+		}
+	}
+
+	componentDidUpdate() {
+		if (!__WEBPACK_IMPORTED_MODULE_2_deep_equal___default()(this.childrenDimensions, this.state.childrenDimensions)) {
+			this.updateDimensions();
+		}
+	}
+
+	componentDidMount() {
+		this.updateDimensions();
+	}
+
 	renderChildren() {
-		return this.props.data.body.map(node => {
-			const Node = __WEBPACK_IMPORTED_MODULE_3__node_by_type__["a" /* default */][node.type];
+		let maxBaseline;
+
+		if (this.state.childrenDimensions) {
+			const baselines = Object.keys(this.state.childrenDimensions).map(key => this.state.childrenDimensions[key].baseline);
+			maxBaseline = Math.max(...baselines);
+		}
+
+		return this.props.data.body.map((node, i) => {
+			const Node = __WEBPACK_IMPORTED_MODULE_1__node_by_type__["a" /* default */][node.type];
+			const nodeDimensions = this.state.childrenDimensions && this.state.childrenDimensions[i];
+
 			return React.createElement(
 				'div',
-				{ className: 'character-class__child-wrapper', key: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__get_node_values__["a" /* default */])(node) },
+				{
+					className: 'character-class__child-wrapper',
+					style: { marginTop: maxBaseline && nodeDimensions ? maxBaseline - nodeDimensions.baseline : 0 },
+					key: i
+				},
 				React.createElement(Node, _extends({}, this.props, {
-					data: node
+					data: node,
+					onDimensionsChanged: dimensions => this.childrenDimensions[i] = dimensions
 				}))
 			);
 		});
@@ -13002,7 +12947,7 @@ class CharacterClass extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
 		return React.createElement(
 			'div',
-			{ className: classNames.join(' ') },
+			{ className: classNames.join(' '), style: this.props.style, ref: el => this.el = el },
 			React.createElement(
 				'div',
 				{ className: 'character-class__title' },
@@ -13010,14 +12955,14 @@ class CharacterClass extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 			),
 			React.createElement(
 				'div',
-				{ className: 'character-class__children', ref: this.props.onRef },
+				{ className: 'character-class__children', ref: el => this.childrenBody = el },
 				this.renderChildren()
 			)
 		);
 	}
 }
 
-/* harmony default export */ __webpack_exports__["a"] = (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__measure4__["a" /* default */])(CharacterClass));
+/* harmony default export */ __webpack_exports__["a"] = (CharacterClass);
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(6)))
 
 /***/ }),
@@ -13096,24 +13041,14 @@ class CharacterClassRange extends __WEBPACK_IMPORTED_MODULE_0_react__["Component
 "use strict";
 /* WEBPACK VAR INJECTION */(function(React) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_clone__ = __webpack_require__(124);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_clone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_clone__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_dom__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__connector_Connector__ = __webpack_require__(63);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__measure5__ = __webpack_require__(290);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__node_by_type__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__get_node_values__ = __webpack_require__(285);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__get_unique_node_id__ = __webpack_require__(288);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_deep_equal__ = __webpack_require__(125);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_deep_equal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_deep_equal__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Disjunction_sass__ = __webpack_require__(135);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Disjunction_sass___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__Disjunction_sass__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__connector_Connector__ = __webpack_require__(63);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_by_type__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__get_unique_node_id__ = __webpack_require__(288);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_deep_equal__ = __webpack_require__(125);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_deep_equal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_deep_equal__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Disjunction_sass__ = __webpack_require__(135);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Disjunction_sass___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__Disjunction_sass__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-
-
-
 
 
 
@@ -13159,7 +13094,7 @@ class Disjunction extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 	}
 
 	componentDidUpdate() {
-		if (!__WEBPACK_IMPORTED_MODULE_8_deep_equal___default()(this.childrenDimensions, this.state.childrenDimensions)) {
+		if (!__WEBPACK_IMPORTED_MODULE_4_deep_equal___default()(this.childrenDimensions, this.state.childrenDimensions)) {
 			this.updateDimensions();
 		}
 	}
@@ -13182,14 +13117,14 @@ class Disjunction extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 				return;
 			}
 
-			list.push(React.createElement(__WEBPACK_IMPORTED_MODULE_3__connector_Connector__["a" /* default */], {
+			list.push(React.createElement(__WEBPACK_IMPORTED_MODULE_1__connector_Connector__["a" /* default */], {
 				key: `left:${dimensions.left}:${dimensions.right}:${dimensions.top}`,
 				fromX: 0,
 				fromY: this.state.dimensions.height / 2,
 				toX: dimensions.left - this.state.dimensions.left,
 				toY: dimensions.baseline + dimensions.top - this.state.dimensions.top,
 				turn: 25
-			}), React.createElement(__WEBPACK_IMPORTED_MODULE_3__connector_Connector__["a" /* default */], {
+			}), React.createElement(__WEBPACK_IMPORTED_MODULE_1__connector_Connector__["a" /* default */], {
 				key: `right:${dimensions.left}:${dimensions.right}:${dimensions.top}`,
 				fromX: dimensions.right - this.state.dimensions.left,
 				fromY: dimensions.baseline + dimensions.top - this.state.dimensions.top,
@@ -13204,7 +13139,7 @@ class Disjunction extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
 	renderChildren() {
 		return this.props.data.body.filter(node => node.raw !== '').map((node, i) => {
-			const Node = __WEBPACK_IMPORTED_MODULE_5__node_by_type__["a" /* default */][node.type];
+			const Node = __WEBPACK_IMPORTED_MODULE_2__node_by_type__["a" /* default */][node.type];
 
 			return React.createElement(Node, _extends({}, this.props, {
 				style: null,
@@ -13264,20 +13199,15 @@ class Dot extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 "use strict";
 /* WEBPACK VAR INJECTION */(function(React) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__measure5__ = __webpack_require__(290);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__node_by_type__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__reduce_tree__ = __webpack_require__(287);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__get_unique_node_id_2__ = __webpack_require__(293);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_deep_equal__ = __webpack_require__(125);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_deep_equal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_deep_equal__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__actions__ = __webpack_require__(39);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Group_sass__ = __webpack_require__(137);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Group_sass___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__Group_sass__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_by_type__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__reduce_tree__ = __webpack_require__(287);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__get_unique_node_id_2__ = __webpack_require__(293);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_deep_equal__ = __webpack_require__(125);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_deep_equal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_deep_equal__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__actions__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Group_sass__ = __webpack_require__(137);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Group_sass___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__Group_sass__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-
 
 
 
@@ -13306,6 +13236,7 @@ class Group extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 		const baselines = Object.keys(this.childrenDimensions).map(key => childrenBodyTop + this.childrenDimensions[key].baseline);
 		const dimensions = {
 			left: parentRect.left,
+			right: parentRect.right,
 			top: parentRect.top,
 			width: parentRect.width,
 			height: parentRect.height,
@@ -13323,7 +13254,7 @@ class Group extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 	}
 
 	componentDidUpdate() {
-		if (!__WEBPACK_IMPORTED_MODULE_6_deep_equal___default()(this.childrenDimensions, this.state.childrenDimensions)) {
+		if (!__WEBPACK_IMPORTED_MODULE_4_deep_equal___default()(this.childrenDimensions, this.state.childrenDimensions)) {
 			this.updateDimensions();
 		}
 	}
@@ -13333,7 +13264,7 @@ class Group extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 	}
 
 	getGroupIndex() {
-		return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__reduce_tree__["a" /* default */])(this.props.ast, 'body', (prev, current) => ({
+		return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__reduce_tree__["a" /* default */])(this.props.ast, 'body', (prev, current) => ({
 			value: current.type === 'group' ? prev + 1 : prev,
 			stop: current === this.props.data
 		}), 0);
@@ -13348,7 +13279,7 @@ class Group extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 		}
 
 		return this.props.data.body.map((node, i) => {
-			const Node = __WEBPACK_IMPORTED_MODULE_3__node_by_type__["a" /* default */][node.type];
+			const Node = __WEBPACK_IMPORTED_MODULE_1__node_by_type__["a" /* default */][node.type];
 			const nodeDimensions = this.state.childrenDimensions && this.state.childrenDimensions[i];
 
 			return React.createElement(Node, _extends({}, this.props, {
@@ -13480,7 +13411,7 @@ class Quantifier extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 	}
 }
 
-/* harmony default export */ __webpack_exports__["a"] = (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__measure2__["a" /* default */])(Quantifier));
+/* harmony default export */ __webpack_exports__["a"] = (Quantifier);
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(6)))
 
 /***/ }),
@@ -13490,16 +13421,10 @@ class Quantifier extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 "use strict";
 /* WEBPACK VAR INJECTION */(function(React) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__measure5__ = __webpack_require__(290);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_is_equal_shallow__ = __webpack_require__(157);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_is_equal_shallow___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_is_equal_shallow__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__get_unique_node_id__ = __webpack_require__(288);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__actions__ = __webpack_require__(39);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Value_sass__ = __webpack_require__(139);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Value_sass___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__Value_sass__);
-
-// import shallowCompare from 'react-addons-shallow-compare'
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__get_unique_node_id__ = __webpack_require__(288);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Value_sass__ = __webpack_require__(139);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Value_sass___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__Value_sass__);
 
 
 
@@ -13551,10 +13476,6 @@ class Value extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 		}
 	}
 
-	// componentWillReceiveProps(nextProps) {
-	// 	// this.baseline = nextProps.dimensions[getUniqueNodeId(nextProps.data)].baseline
-	// }
-
 	renderSymbol() {
 		const code = this.props.data.codePoint;
 
@@ -13599,17 +13520,19 @@ class Value extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
 		if (i !== 0) {
 			prev[i - 1].end = {
-				x: curr.startX,
-				y: curr.y
+				x: curr.left,
+				y: curr.baseline
 			};
 			newArr = prev;
 		}
 
 		if (i !== points.length - 1) {
-			newArr = prev.concat({ start: {
-					x: curr.endX,
-					y: curr.y
-				} });
+			newArr = prev.concat({
+				start: {
+					x: curr.right,
+					y: curr.baseline
+				}
+			});
 		}
 
 		return newArr;
@@ -13652,8 +13575,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 // const initValue = 'd|s(?=s)'
 // const initValue = '(a(b(c(de))))'
 // const initValue = '(abcdef)'
-const initValue = '(a(bv)(av(cef)))';
-// const initValue = 'a|b|c'
+// const initValue = '(a(bv)(av(cef)))'
+// const initValue = 'abcdef||dfsdf23f|sad'
+// const initValue = '[^ssdfsf](a)'
+const initValue = 'a+';
 
 let ast = null;
 
@@ -17073,60 +16998,8 @@ module.exports = invariant;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 157 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/*!
- * is-equal-shallow <https://github.com/jonschlinkert/is-equal-shallow>
- *
- * Copyright (c) 2015, Jon Schlinkert.
- * Licensed under the MIT License.
- */
-
-
-
-var isPrimitive = __webpack_require__(158);
-
-module.exports = function isEqual(a, b) {
-  if (!a && !b) { return true; }
-  if (!a && b || a && !b) { return false; }
-
-  var numKeysA = 0, numKeysB = 0, key;
-  for (key in b) {
-    numKeysB++;
-    if (!isPrimitive(b[key]) || !a.hasOwnProperty(key) || (a[key] !== b[key])) {
-      return false;
-    }
-  }
-  for (key in a) {
-    numKeysA++;
-  }
-  return numKeysA === numKeysB;
-};
-
-
-/***/ }),
-/* 158 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/*!
- * is-primitive <https://github.com/jonschlinkert/is-primitive>
- *
- * Copyright (c) 2014-2015, Jon Schlinkert.
- * Licensed under the MIT License.
- */
-
-
-
-// see http://jsperf.com/testing-value-is-primitive/7
-module.exports = function isPrimitive(value) {
-  return value == null || (typeof value !== 'function' && typeof value !== 'object');
-};
-
-
-/***/ }),
+/* 157 */,
+/* 158 */,
 /* 159 */
 /***/ (function(module, exports) {
 
@@ -29812,6 +29685,95 @@ function compareRects(rect1, rect2) {
 function unique(node) {
 	return [node.type, node.raw, node.behavior, node.kind].join('-');
 }
+
+/***/ }),
+/* 294 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(React) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__get_unique_node_id__ = __webpack_require__(288);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Reference_sass__ = __webpack_require__(295);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Reference_sass___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__Reference_sass__);
+
+
+
+
+
+function compareDimensions(rect1, rect2) {
+	return rect1.width !== rect2.width || rect1.height !== rect2.height || rect1.left !== rect2.left || rect1.right !== rect2.right || rect1.top !== rect2.top;
+}
+
+class Value extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			dimensions: null
+		};
+	}
+
+	updateDimensions(rect) {
+		const dimensions = {
+			left: rect.left,
+			right: rect.right,
+			top: rect.top,
+			width: rect.width,
+			height: rect.height,
+			baseline: rect.height / 2
+		};
+
+		this.setState({
+			dimensions
+		});
+
+		if (this.props.onDimensionsChanged) {
+			this.props.onDimensionsChanged(dimensions);
+		}
+	}
+
+	componentDidMount() {
+		const rect = this.el.getBoundingClientRect();
+		this.updateDimensions(rect);
+	}
+
+	componentDidUpdate() {
+		const rect = this.el.getBoundingClientRect();
+		if (compareDimensions(rect, this.state.dimensions)) {
+			this.updateDimensions(rect);
+		}
+	}
+
+	renderBaseline() {
+		if (this.state.dimensions) {
+			return React.createElement('div', { className: 'baseline', style: { top: this.state.dimensions.baseline } });
+		}
+	}
+
+	render() {
+		return React.createElement(
+			'div',
+			{ className: 'node value', style: this.props.style, ref: el => this.el = el },
+			React.createElement(
+				'div',
+				{ className: 'value__body' },
+				this.props.data.raw
+			),
+			this.renderBaseline()
+		);
+	}
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Value);
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(6)))
+
+/***/ }),
+/* 295 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

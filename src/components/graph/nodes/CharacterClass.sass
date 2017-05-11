@@ -14,12 +14,13 @@
 	background-color: #fff
 	vertical-align: bottom
 	padding: 3px 8px
-	margin-left: 10px
+	margin: 0 10px
 
 .character-class__children
 	display: flex
 	flex-direction: row
 	align-items: center
+	justify-content: center
 	min-width: 80px
 	background-color: #fff
 	border-radius: 8px
@@ -28,5 +29,7 @@
 .character-class._negative
 	background-color: rgba(red, .2)
 
-.character-class__child-wrapper:not(:last-child)
-	border-right: 1px solid #eaeaea
+
+.character-class__child-wrapper
+	&:not(:last-child)
+		border-right: 1px solid #eaeaea

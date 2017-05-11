@@ -37,9 +37,7 @@ class Alternative extends Component {
 
 		this.setState({
 			dimensions,
-			childrenDimensions: {
-				...this.childrenDimensions
-			}
+			childrenDimensions: { ...this.childrenDimensions }
 		})
 
 		if (this.props.onDimensionsChanged) {
@@ -58,38 +56,30 @@ class Alternative extends Component {
 	}
 
 	renderConnectors() {
-		if (!this.el || !this.props.dimensions) {
+		if (!this.state.childrenDimensions) {
 			return
 		}
 
-		const containerRect = this.el.getBoundingClientRect()
 		const dimensions = []
 
-		this.props.data.body.filter(node => node.raw !== '').forEach(node => {
-			const nodeDimensions = this.props.dimensions[getUniqueNodeId(node)]
-
-			if (!nodeDimensions) {
-				return
+		this.props.data.body.filter(node => node.raw !== '').forEach((node, i) => {
+			const nodeDimensions = this.state.childrenDimensions[i]
+			if (nodeDimensions) {
+				dimensions.push({
+					left: nodeDimensions.left - this.state.dimensions.left,
+					right: nodeDimensions.right - this.state.dimensions.left,
+					baseline: nodeDimensions.baseline + nodeDimensions.top - this.state.dimensions.top
+				})
 			}
-
-			// const rect = el.getBoundingClientRect()
-            //
-			// const nodeDimensions = {
-			// 	startX: rect.left,
-			// 	endX: rect.right,
-			// 	y: containerRect.top + containerRect.height / 2
-			// }
-
-			nodeDimensions.push(nodeDimensions)
 		})
 
 		return pointsToConnectors(dimensions).map(connector => (
 			<Connector
 				key={ `${connector.start.x}:${connector.start.y}:${connector.end.x}:${connector.end.y}` }
-				fromX={ connector.start.x - containerRect.left }
-				fromY={ connector.start.y - containerRect.top }
-				toX={ connector.end.x - containerRect.left }
-				toY={ connector.end.y - containerRect.top }
+				fromX={ connector.start.x }
+				fromY={ connector.start.y }
+				toX={ connector.end.x }
+				toY={ connector.end.y }
 			/>
 		))
 	}
@@ -128,7 +118,7 @@ class Alternative extends Component {
 		return (
 			<div className="node alternative" style={ this.props.style } ref={ el => this.el = el }>
 				<div className="alternative__children" ref={ el => this.childrenBody = el }>
-					{/*{ this.renderConnectors() }*/}
+					{ this.renderConnectors() }
 					{ this.renderChildren() }
 				</div>
 				{ this.renderBaseline() }

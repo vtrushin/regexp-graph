@@ -1,6 +1,4 @@
 import { Component } from 'react'
-import ReactDOM from 'react-dom'
-import measure from '../measure5'
 import nodeByType from '../node-by-type'
 import reduceTree from '../reduce-tree'
 import getUniqueNodeId from '../get-unique-node-id-2'
@@ -27,6 +25,7 @@ class Group extends Component {
 		const baselines = Object.keys(this.childrenDimensions).map(key => childrenBodyTop + this.childrenDimensions[key].baseline)
 		const dimensions = {
 			left: parentRect.left,
+			right: parentRect.right,
 			top: parentRect.top,
 			width: parentRect.width,
 			height: parentRect.height,
@@ -35,9 +34,7 @@ class Group extends Component {
 
 		this.setState({
 			dimensions,
-			childrenDimensions: {
-				...this.childrenDimensions
-			}
+			childrenDimensions: { ...this.childrenDimensions }
 		})
 
 		if (this.props.onDimensionsChanged) {

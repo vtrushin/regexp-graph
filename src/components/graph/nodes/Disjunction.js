@@ -1,10 +1,6 @@
 import { Component } from 'react'
-import clone from 'clone'
-import ReactDOM from 'react-dom'
 import Connector from '../connector/Connector'
-import measure from '../measure5'
 import nodeByType from '../node-by-type'
-import getNodeValues from '../get-node-values'
 import getUniqueNodeId from '../get-unique-node-id'
 import equal from 'deep-equal'
 import './Disjunction.sass'
@@ -37,9 +33,7 @@ class Disjunction extends Component {
 
 		this.setState({
 			dimensions,
-			childrenDimensions: {
-				...this.childrenDimensions
-			}
+			childrenDimensions: { ...this.childrenDimensions }
 		})
 
 		if (this.props.onDimensionsChanged) {

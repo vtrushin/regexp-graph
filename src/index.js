@@ -15,8 +15,10 @@ import App from './containers'
 // const initValue = 'd|s(?=s)'
 // const initValue = '(a(b(c(de))))'
 // const initValue = '(abcdef)'
-const initValue = '(a(bv)(av(cef)))'
-// const initValue = 'a|b|c'
+// const initValue = '(a(bv)(av(cef)))'
+// const initValue = 'abcdef||dfsdf23f|sad'
+// const initValue = '[^ssdfsf](a)'
+const initValue = 'a+'
 
 let ast = null
 

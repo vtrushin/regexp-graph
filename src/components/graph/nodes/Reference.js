@@ -1,16 +1,7 @@
 import { Component } from 'react'
 import getUniqueNodeId from '../get-unique-node-id'
 import * as actions from '../../../actions'
-import './Value.sass'
-
-const specials = new Map([
-	[8, 'boundary'],
-	[9, 'tab'],
-	[10, 'new line'],
-	[11, 'vertical tab'],
-	[13, 'caret return'],
-	[32, 'space']
-])
+import './Reference.sass'
 
 function compareDimensions(rect1, rect2) {
 	return (
@@ -62,14 +53,6 @@ class Value extends Component {
 		}
 	}
 
-	renderSymbol() {
-		const code = this.props.data.codePoint
-
-		return specials.has(code)
-			? <span className="value__special">{ specials.get(code) }</span>
-			: this.props.data.raw
-	}
-
 	renderBaseline() {
 		if (this.state.dimensions) {
 			return <div className="baseline" style={{ top: this.state.dimensions.baseline }}></div>
@@ -80,7 +63,7 @@ class Value extends Component {
 		return (
 			<div className="node value" style={ this.props.style } ref={ el => this.el = el }>
 				<div className="value__body">
-					{ this.renderSymbol() }
+					{ this.props.data.raw }
 				</div>
 				{ this.renderBaseline() }
 			</div>

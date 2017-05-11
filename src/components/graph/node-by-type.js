@@ -8,6 +8,7 @@ import Group from './nodes/Group'
 import Disjunction from './nodes/Disjunction'
 import CharacterClass from './nodes/CharacterClass'
 import Alternative from './nodes/Alternative'
+import Reference from './nodes/Reference'
 
 export default {
 	value: Value,
@@ -19,5 +20,6 @@ export default {
 	group: Group,
 	disjunction: Disjunction,
 	characterClass: CharacterClass,
-	alternative: Alternative
+	alternative: Alternative,
+	reference: Reference
 }

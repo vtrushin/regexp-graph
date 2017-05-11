@@ -62,4 +62,4 @@ class Quantifier extends Component {
 	}
 }
 
-export default measure(Quantifier)
+export default Quantifier
