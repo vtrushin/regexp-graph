@@ -1,35 +1,41 @@
 .character-class
 	position: relative
-	padding: 5px
 	border-radius: 12px
-
-.character-class__title
-	//position: absolute
-	//bottom: 100%
-	display: inline-block
-	font-size: .6em
-	color: #989898
-	border-top-left-radius: 8px
-	border-top-right-radius: 8px
-	background-color: #fff
-	vertical-align: bottom
-	padding: 3px 8px
-	margin: 0 10px
-
-.character-class__children
 	display: flex
-	flex-direction: row
-	align-items: center
-	justify-content: center
-	min-width: 80px
-	background-color: #fff
-	border-radius: 8px
-	padding: 2px
+	flex-direction: column
 
-.character-class._negative
-	background-color: rgba(red, .2)
+	&._negative
+		background-color: rgba(red, .2)
 
+	.character-class__title
+		align-self: flex-start
+		font-size: .6em
+		color: #989898
+		border-top-left-radius: 8px
+		border-top-right-radius: 8px
+		background-color: #fff
+		vertical-align: bottom
+		padding: 3px 8px 0
+		margin: 0 10px
 
-.character-class__child-wrapper
-	&:not(:last-child)
-		border-right: 1px solid #eaeaea
+	.character-class__children
+		display: flex
+		flex-direction: row
+		align-content: stretch
+		justify-content: center
+		background-color: #fff
+		border-radius: 8px
+		padding: 4px
+
+	.character-class__child-wrapper
+		&:not(:first-child)
+			padding-left: 4px
+		&:not(:last-child)
+			padding-right: 4px
+			border-right: 1px solid #eaeaea
+
+	& > .baseline
+		position: absolute
+		width: 100%
+		height: 1px
+		background-color: rgba(green, .5)

@@ -1,17 +1,13 @@
 import { Component } from 'react'
-import nodeByType from '../node-by-type'
-import reduceTree from '../reduce-tree'
-import getUniqueNodeId from '../get-unique-node-id-2'
 import equal from 'deep-equal'
-import * as actions from '../../../actions'
+import rectToObject from '../../../utils/rect-to-object'
+import nodeByType from '../node-by-type'
 import './Group.sass'
 
-class Group extends Component {
+export default class Group extends Component {
 	constructor(props) {
 		super(props)
-
 		this.childrenDimensions = {}
-
 		this.state = {
 			dimensions: null,
 			childrenDimensions: null
@@ -19,16 +15,14 @@ class Group extends Component {
 	}
 
 	updateDimensions() {
-		const parentRect = this.el.getBoundingClientRect()
-		const childrenBodyRect = this.childrenBody.getBoundingClientRect()
-		const childrenBodyTop = childrenBodyRect.top - parentRect.top
-		const baselines = Object.keys(this.childrenDimensions).map(key => childrenBodyTop + this.childrenDimensions[key].baseline)
+		const parentRect = rectToObject(this.el.getBoundingClientRect())
+		const baselines = Object.keys(this.childrenDimensions).map(key => {
+			const { baseline, rect: { top } } = this.childrenDimensions[key]
+			return baseline + top - parentRect.top
+		})
+
 		const dimensions = {
-			left: parentRect.left,
-			right: parentRect.right,
-			top: parentRect.top,
-			width: parentRect.width,
-			height: parentRect.height,
+			rect: { ...parentRect },
 			baseline: Math.max(...baselines)
 		}
 
@@ -52,13 +46,6 @@ class Group extends Component {
 		this.updateDimensions()
 	}
 
-	getGroupIndex() {
-		return reduceTree(this.props.ast, 'body', (prev, current) => ({
-			value: current.type === 'group' ? prev + 1 : prev,
-			stop: current === this.props.data
-		}), 0)
-	}
-
 	renderChildren() {
 		let maxBaseline
 
@@ -74,7 +61,7 @@ class Group extends Component {
 			return (
 				<Node
 					{ ...this.props }
-					style={{ marginTop: maxBaseline && nodeDimensions ? maxBaseline - nodeDimensions.baseline : 0 }}
+					style={{ marginTop: maxBaseline && nodeDimensions ? maxBaseline - nodeDimensions.baseline: 0 }}
 					data={ node }
 					onDimensionsChanged={ dimensions => this.childrenDimensions[i] = dimensions }
 					key={ i }
@@ -90,22 +77,17 @@ class Group extends Component {
 	}
 
 	render() {
-		const index = this.getGroupIndex()
-
-		console.log('childrenDimensions', this.state.childrenDimensions)
+		const index = this.props.data.groupIndex
 
 		return (
-			<div className={ `node group group_${index} _${this.props.data.behavior}` } style={ this.props.style } ref={ el => this.el = el }>
+			<div
+				className={ `node group _${index} _${this.props.data.behavior}` } style={ this.props.style } ref={ el => this.el = el }>
 				<div className="group__title">#{ index }</div>
 				<div className="group__children">
-					<div className="group__children-body" ref={ el => this.childrenBody = el }>
-						{ this.renderChildren() }
-					</div>
+					{ this.renderChildren() }
 				</div>
 				{ this.renderBaseline() }
 			</div>
 		)
 	}
 }
-
-export default Group

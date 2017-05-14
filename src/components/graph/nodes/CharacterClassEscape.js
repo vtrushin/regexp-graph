@@ -13,7 +13,7 @@ const types = {
 export default class CharacterClassEscape extends Component {
 	render() {
 		return (
-			<span className="node value">
+			<span className="node character-class-escape">
 				<span className="character-class-escape__symbol">
 					{ types[this.props.data.value] }
 				</span>

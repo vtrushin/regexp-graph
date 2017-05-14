@@ -1,36 +1,28 @@
-import parser from 'regjsparser'
 import React from 'react'
 import thunk from 'redux-thunk'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
-import addNodeParents from './components/graph/add-node-parents'
+import parse from './parse'
 import reducer from './reducers'
 import App from './containers'
 
 // const initValue = '^\b([abcd]+b|\d+|[^\da-f]+h)\b(?=s)$'
-// const initValue = '((a(a(a)))|(b(b))|(c(c)))'
+const initValue = '((a(a(a)))|(b(b))|(c(c)))'
 // const initValue = 'ab(c|d)e'
 // const initValue = 'a|b'
 // const initValue = 'd|s(?=s)'
 // const initValue = '(a(b(c(de))))'
 // const initValue = '(abcdef)'
 // const initValue = '(a(bv)(av(cef)))'
+// const initValue = '[1-9]'
 // const initValue = 'abcdef||dfsdf23f|sad'
-// const initValue = '[^ssdfsf](a)'
-const initValue = 'a+'
-
-let ast = null
-
-try {
-	ast = addNodeParents(parser.parse(initValue))
-	console.log(ast)
-} catch (e) {
-	console.error('parse error')
-}
+// const initValue = '[^ssdfs1-2d](a)'
+// const initValue = 'ab+'
+// const initValue = '^<([a-z]+)([^<]+)*(?:>(.*)<\\/\\1>|\\s+\\/>)$'
 
 const initialState = {
-	ast,
+	ast: parse(initValue),
 	value: initValue
 }
 

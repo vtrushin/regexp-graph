@@ -1,16 +1,14 @@
 import { Component } from 'react'
+import equal from 'deep-equal'
+import rectToObject from '../../../utils/rect-to-object'
 import Connector from '../connector/Connector'
 import nodeByType from '../node-by-type'
-import getUniqueNodeId from '../get-unique-node-id'
-import equal from 'deep-equal'
 import './Disjunction.sass'
 
-class Disjunction extends Component {
+export default class Disjunction extends Component {
 	constructor(props) {
 		super(props)
-
 		this.childrenDimensions = {}
-
 		this.state = {
 			dimensions: null,
 			childrenDimensions: null
@@ -18,16 +16,9 @@ class Disjunction extends Component {
 	}
 
 	updateDimensions() {
-		const parentRect = this.el.getBoundingClientRect()
-		// const childrenBodyRect = this.childrenBody.getBoundingClientRect()
-		// const childrenBodyTop = childrenBodyRect.top - parentRect.top
-		const baselines = Object.keys(this.childrenDimensions).map(key => this.childrenDimensions[key].baseline)
+		const parentRect = rectToObject(this.el.getBoundingClientRect())
 		const dimensions = {
-			left: parentRect.left,
-			right: parentRect.right,
-			top: parentRect.top,
-			width: parentRect.width,
-			height: parentRect.height,
+			rect: { ...parentRect },
 			baseline: parentRect.height / 2
 		}
 
@@ -59,28 +50,28 @@ class Disjunction extends Component {
 		const list = []
 
 		this.props.data.body.filter(node => node.raw !== '').forEach((node, i) => {
-			const dimensions = this.state.childrenDimensions && this.state.childrenDimensions[i]
+			const childDimensions = this.state.childrenDimensions && this.state.childrenDimensions[i]
 
-			if (!dimensions) {
+			if (!childDimensions) {
 				return
 			}
 
 			list.push(
 				<Connector
-					key={ `left:${dimensions.left}:${dimensions.right}:${dimensions.top}` }
+					key={ `left:${childDimensions.rect.left}:${childDimensions.rect.right}:${childDimensions.rect.top}` }
 					fromX={ 0 }
-					fromY={ this.state.dimensions.height / 2 }
-					toX={ dimensions.left - this.state.dimensions.left }
-					toY={ dimensions.baseline + dimensions.top - this.state.dimensions.top }
+					fromY={ this.state.dimensions.rect.height / 2 }
+					toX={ childDimensions.rect.left - this.state.dimensions.rect.left }
+					toY={ childDimensions.baseline + childDimensions.rect.top - this.state.dimensions.rect.top }
 					turn={ 25 }
 				/>,
 				<Connector
-					key={ `right:${dimensions.left}:${dimensions.right}:${dimensions.top}` }
-					fromX={ dimensions.right - this.state.dimensions.left }
-					fromY={ dimensions.baseline + dimensions.top - this.state.dimensions.top }
-					toX={ this.state.dimensions.width }
-					toY={ this.state.dimensions.height / 2 }
-					turn={ this.state.dimensions.width - 25 }
+					key={ `right:${childDimensions.rect.left}:${childDimensions.rect.right}:${childDimensions.rect.top}` }
+					fromX={ childDimensions.rect.right - this.state.dimensions.rect.left }
+					fromY={ childDimensions.baseline + childDimensions.rect.top - this.state.dimensions.rect.top }
+					toX={ this.state.dimensions.rect.width }
+					toY={ this.state.dimensions.rect.height / 2 }
+					turn={ this.state.dimensions.rect.width - 25 }
 				/>
 			)
 		})
@@ -113,5 +104,3 @@ class Disjunction extends Component {
 		)
 	}
 }
-
-export default Disjunction

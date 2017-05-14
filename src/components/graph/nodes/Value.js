@@ -1,6 +1,6 @@
 import { Component } from 'react'
-import getUniqueNodeId from '../get-unique-node-id'
-import * as actions from '../../../actions'
+import equal from 'deep-equal'
+import rectToObject from '../../../utils/rect-to-object'
 import './Value.sass'
 
 const specials = new Map([
@@ -12,20 +12,9 @@ const specials = new Map([
 	[32, 'space']
 ])
 
-function compareDimensions(rect1, rect2) {
-	return (
-		rect1.width !== rect2.width
-		|| rect1.height !== rect2.height
-		|| rect1.left !== rect2.left
-		|| rect1.right !== rect2.right
-		|| rect1.top !== rect2.top
-	)
-}
-
-class Value extends Component {
+export default class Value extends Component {
 	constructor(props) {
 		super(props)
-
 		this.state = {
 			dimensions: null
 		}
@@ -33,17 +22,11 @@ class Value extends Component {
 
 	updateDimensions(rect) {
 		const dimensions = {
-			left: rect.left,
-			right: rect.right,
-			top: rect.top,
-			width: rect.width,
-			height: rect.height,
+			rect: { ...rect },
 			baseline: rect.height / 2
 		}
 
-		this.setState({
-			dimensions
-		})
+		this.setState({ dimensions })
 
 		if (this.props.onDimensionsChanged) {
 			this.props.onDimensionsChanged(dimensions)
@@ -51,13 +34,13 @@ class Value extends Component {
 	}
 
 	componentDidMount() {
-		const rect = this.el.getBoundingClientRect()
+		const rect = rectToObject(this.el.getBoundingClientRect())
 		this.updateDimensions(rect)
 	}
 
 	componentDidUpdate() {
-		const rect = this.el.getBoundingClientRect()
-		if (compareDimensions(rect, this.state.dimensions)) {
+		const rect = rectToObject(this.el.getBoundingClientRect())
+		if (!equal(rect, this.state.dimensions.rect)) {
 			this.updateDimensions(rect)
 		}
 	}
@@ -87,5 +70,3 @@ class Value extends Component {
 		)
 	}
 }
-
-export default Value

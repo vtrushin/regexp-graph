@@ -1,20 +1,15 @@
 import { Component } from 'react'
-import ReactDOM from 'react-dom'
-import Connector from '../connector/Connector'
-import measure from '../measure5'
-import nodeByType from '../node-by-type'
-import getUniqueNodeId from '../get-unique-node-id'
-import pointsToConnectors from '../points-to-connectors'
 import equal from 'deep-equal'
-import * as actions from '../../../actions'
+import rectToObject from '../../../utils/rect-to-object'
+import Connector from '../connector/Connector'
+import nodeByType from '../node-by-type'
+import pointsToConnectors from '../points-to-connectors'
 import './Alternative.sass'
 
-class Alternative extends Component {
+export default class Alternative extends Component {
 	constructor(props) {
 		super(props)
-
 		this.childrenDimensions = {}
-
 		this.state = {
 			dimensions: null,
 			childrenDimensions: null
@@ -22,16 +17,13 @@ class Alternative extends Component {
 	}
 
 	updateDimensions() {
-		const parentRect = this.el.getBoundingClientRect()
-		const childrenBodyRect = this.childrenBody.getBoundingClientRect()
-		const childrenBodyTop = childrenBodyRect.top - parentRect.top
-		const baselines = Object.keys(this.childrenDimensions).map(key => childrenBodyTop + this.childrenDimensions[key].baseline)
+		const parentRect = rectToObject(this.el.getBoundingClientRect())
+		const baselines = Object.keys(this.childrenDimensions).map(key => {
+			const { baseline, rect: { top } } = this.childrenDimensions[key]
+			return baseline + top - parentRect.top
+		})
 		const dimensions = {
-			left: parentRect.left,
-			right: parentRect.right,
-			top: parentRect.top,
-			width: parentRect.width,
-			height: parentRect.height,
+			rect: { ...parentRect },
 			baseline: Math.max(...baselines)
 		}
 
@@ -66,9 +58,9 @@ class Alternative extends Component {
 			const nodeDimensions = this.state.childrenDimensions[i]
 			if (nodeDimensions) {
 				dimensions.push({
-					left: nodeDimensions.left - this.state.dimensions.left,
-					right: nodeDimensions.right - this.state.dimensions.left,
-					baseline: nodeDimensions.baseline + nodeDimensions.top - this.state.dimensions.top
+					left: nodeDimensions.rect.left - this.state.dimensions.rect.left,
+					right: nodeDimensions.rect.right - this.state.dimensions.rect.left,
+					baseline: nodeDimensions.baseline + nodeDimensions.rect.top - this.state.dimensions.rect.top
 				})
 			}
 		})
@@ -117,7 +109,7 @@ class Alternative extends Component {
 	render() {
 		return (
 			<div className="node alternative" style={ this.props.style } ref={ el => this.el = el }>
-				<div className="alternative__children" ref={ el => this.childrenBody = el }>
+				<div className="alternative__children">
 					{ this.renderConnectors() }
 					{ this.renderChildren() }
 				</div>
@@ -126,5 +118,3 @@ class Alternative extends Component {
 		)
 	}
 }
-
-export default Alternative

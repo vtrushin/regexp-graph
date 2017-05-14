@@ -9,12 +9,6 @@ import Graph from './graph/Graph'
 import './App.sass'
 
 export default class App extends Component {
-	constructor(props) {
-		super(props)
-
-		this.renderGraph = this.renderGraph.bind(this)
-	}
-
 	renderGraph() {
 		if (this.props.ast) {
 			return <Graph { ...this.props } data={ this.props.ast } />

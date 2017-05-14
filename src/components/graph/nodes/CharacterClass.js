@@ -1,14 +1,13 @@
 import { Component } from 'react'
-import nodeByType from '../node-by-type'
 import equal from 'deep-equal'
+import rectToObject from '../../../utils/rect-to-object'
+import nodeByType from '../node-by-type'
 import './CharacterClass.sass'
 
-class CharacterClass extends Component {
+export default class CharacterClass extends Component {
 	constructor(props) {
 		super(props)
-
 		this.childrenDimensions = {}
-
 		this.state = {
 			dimensions: null,
 			childrenDimensions: null
@@ -16,16 +15,13 @@ class CharacterClass extends Component {
 	}
 
 	updateDimensions() {
-		const parentRect = this.el.getBoundingClientRect()
-		const childrenBodyRect = this.childrenBody.getBoundingClientRect()
-		const childrenBodyTop = childrenBodyRect.top - parentRect.top
-		const baselines = Object.keys(this.childrenDimensions).map(key => childrenBodyTop + this.childrenDimensions[key].baseline)
+		const parentRect = rectToObject(this.el.getBoundingClientRect())
+		const baselines = Object.keys(this.childrenDimensions).map(key => {
+			const { baseline, rect: { top } } = this.childrenDimensions[key]
+			return baseline + top - parentRect.top
+		})
 		const dimensions = {
-			left: parentRect.left,
-			right: parentRect.right,
-			top: parentRect.top,
-			width: parentRect.width,
-			height: parentRect.height,
+			rect: { ...parentRect },
 			baseline: Math.max(...baselines)
 		}
 
@@ -64,17 +60,24 @@ class CharacterClass extends Component {
 			return (
 				<div
 					className="character-class__child-wrapper"
-					style={{ marginTop: maxBaseline && nodeDimensions ? maxBaseline - nodeDimensions.baseline : 0 }}
+					style={{ paddingTop: maxBaseline && nodeDimensions ? maxBaseline - nodeDimensions.baseline : 0 }}
 					key={ i }
 				>
 					<Node
 						{ ...this.props }
+						style={ null }
 						data={ node }
 						onDimensionsChanged={ dimensions => this.childrenDimensions[i] = dimensions }
 					/>
 				</div>
 			)
 		})
+	}
+
+	renderBaseline() {
+		if (this.state.dimensions) {
+			return <div className="baseline" style={{ top: this.state.dimensions.baseline }}></div>
+		}
 	}
 
 	render() {
@@ -91,12 +94,11 @@ class CharacterClass extends Component {
 		return (
 			<div className={ classNames.join(' ') } style={ this.props.style } ref={ el => this.el = el }>
 				<div className="character-class__title">{ title }</div>
-				<div className="character-class__children" ref={ el => this.childrenBody = el }>
+				<div className="character-class__children">
 					{ this.renderChildren() }
 				</div>
+				{ this.renderBaseline() }
 			</div>
 		)
 	}
 }
-
-export default CharacterClass
