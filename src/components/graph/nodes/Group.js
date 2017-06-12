@@ -1,7 +1,9 @@
 import { Component } from 'react'
 import equal from 'deep-equal'
 import rectToObject from '../../../utils/rect-to-object'
+import Connector from '../connector/Connector'
 import nodeByType from '../node-by-type'
+import pointsToConnectors from '../points-to-connectors'
 import './Group.sass'
 
 export default class Group extends Component {
@@ -46,6 +48,69 @@ export default class Group extends Component {
 		this.updateDimensions()
 	}
 
+	renderConnectors() {
+		if (!this.state.childrenDimensions || !this.props.data.body.length) {
+			return
+		}
+
+		const dimensions = []
+
+		this.props.data.body.filter(node => node.raw !== '').forEach((node, i) => {
+			const nodeDimensions = this.state.childrenDimensions[i]
+			if (nodeDimensions) {
+				dimensions.push({
+					left: nodeDimensions.rect.left - this.state.dimensions.rect.left,
+					right: nodeDimensions.rect.right - this.state.dimensions.rect.left,
+					baseline: nodeDimensions.baseline + nodeDimensions.rect.top - this.state.dimensions.rect.top
+				})
+			}
+		})
+
+		let connectors = []
+
+		if (this.state.childrenDimensions[0]) {
+			connectors.push(
+				<Connector
+					key={ 0 }
+					fromX={ 0 }
+					fromY={ this.state.dimensions.baseline }
+					toX={ this.state.childrenDimensions[0].rect.left - this.state.dimensions.rect.left }
+					toY={ this.state.childrenDimensions[0].baseline + this.state.childrenDimensions[0].rect.top - this.state.dimensions.rect.top }
+				/>
+			)
+		}
+
+		const points = pointsToConnectors(dimensions)
+
+		if (points) {
+			connectors.push(
+				points.map(connector => (
+					<Connector
+						key={ `${connector.start.x}:${connector.start.y}:${connector.end.x}:${connector.end.y}` }
+						fromX={ connector.start.x }
+						fromY={ connector.start.y }
+						toX={ connector.end.x }
+						toY={ connector.end.y }
+					/>
+				)
+			))
+		}
+
+		if (this.state.childrenDimensions[this.props.data.body.length - 1]) {
+			connectors.push(
+				<Connector
+					key={ 1 }
+					fromX={ this.state.childrenDimensions[this.props.data.body.length - 1].rect.right - this.state.dimensions.rect.left }
+					fromY={ this.state.childrenDimensions[this.props.data.body.length - 1].baseline + this.state.childrenDimensions[this.props.data.body.length - 1].rect.top - this.state.dimensions.rect.top }
+					toX={ this.state.dimensions.rect.width }
+					toY={ this.state.dimensions.baseline }
+				/>
+			)
+		}
+
+		return connectors
+	}
+
 	renderChildren() {
 		let maxBaseline
 
@@ -79,14 +144,20 @@ export default class Group extends Component {
 	render() {
 		const index = this.props.data.groupIndex
 
+		if (!this.props.data.body.length) {
+			return null
+		}
+
 		return (
-			<div
-				className={ `node group _${index} _${this.props.data.behavior}` } style={ this.props.style } ref={ el => this.el = el }>
-				<div className="group__title">#{ index }</div>
-				<div className="group__children">
-					{ this.renderChildren() }
+			<div className={ `node group _${ index <= 6 ? index : 'next' } _${this.props.data.behavior}` } style={ this.props.style } ref={ el => this.el = el }>
+				{ this.renderConnectors() }
+				<div className="group__body">
+					{ this.props.data.behavior === 'normal' && <div className="group__title">Group #{ index }</div> }
+					<div className="group__children">
+						{ this.renderChildren() }
+					</div>
 				</div>
-				{ this.renderBaseline() }
+				{/*{ this.renderBaseline() }*/}
 			</div>
 		)
 	}

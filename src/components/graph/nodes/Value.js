@@ -65,7 +65,7 @@ export default class Value extends Component {
 				<div className="value__body">
 					{ this.renderSymbol() }
 				</div>
-				{ this.renderBaseline() }
+				{/*{ this.renderBaseline() }*/}
 			</div>
 		)
 	}

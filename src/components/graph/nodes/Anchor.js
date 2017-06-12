@@ -13,7 +13,7 @@ export default class Anchor extends Component {
 
 	updateDimensions(rect) {
 		const dimensions = {
-			...rect,
+			rect: { ...rect },
 			baseline: rect.height / 2
 		}
 
@@ -31,7 +31,7 @@ export default class Anchor extends Component {
 
 	componentDidUpdate() {
 		const rect = rectToObject(this.el.getBoundingClientRect())
-		if (!equal(rect, this.state.dimensions)) {
+		if (!equal(rect, this.state.dimensions.rect)) {
 			this.updateDimensions(rect)
 		}
 	}
@@ -48,7 +48,7 @@ export default class Anchor extends Component {
 				<div className="anchor__body">
 					{ this.props.data.kind }
 				</div>
-				{ this.renderBaseline() }
+				{/*{ this.renderBaseline() }*/}
 			</span>
 		)
 	}

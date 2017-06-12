@@ -109,11 +109,11 @@ export default class Alternative extends Component {
 	render() {
 		return (
 			<div className="node alternative" style={ this.props.style } ref={ el => this.el = el }>
+				{ this.renderConnectors() }
 				<div className="alternative__children">
-					{ this.renderConnectors() }
 					{ this.renderChildren() }
 				</div>
-				{ this.renderBaseline() }
+				{/*{ this.renderBaseline() }*/}
 			</div>
 		)
 	}

@@ -97,7 +97,7 @@ export default class CharacterClass extends Component {
 				<div className="character-class__children">
 					{ this.renderChildren() }
 				</div>
-				{ this.renderBaseline() }
+				{/*{ this.renderBaseline() }*/}
 			</div>
 		)
 	}

@@ -1,10 +1,9 @@
+.connector {
+  position: absolute; }
+  .connector path {
+    stroke: #b6b6b6; }
 :root {
-  --group-1-background: #b4d6ef;
-  --group-2-background: #b7b3ef;
-  --group-3-background: #b4efb4;
-  --group-4-background: #e6b4ef;
-  --group-5-background: #efe2b4;
-  --group-6-background: #b4efee; }
+  --block-radius: 10px; }
 
 .value {
   position: relative;
@@ -12,7 +11,7 @@
   color: #333;
   border-radius: 5px; }
   .value .value__body {
-    padding: 4px 10px;
+    padding: 5px;
     text-align: center; }
   .value > .baseline {
     position: absolute;
@@ -42,12 +41,7 @@
     height: 1px;
     background-color: magenta; }
 :root {
-  --group-1-background: #b4d6ef;
-  --group-2-background: #b7b3ef;
-  --group-3-background: #b4efb4;
-  --group-4-background: #e6b4ef;
-  --group-5-background: #efe2b4;
-  --group-6-background: #b4efee; }
+  --block-radius: 10px; }
 
 .character-class-range {
   position: relative;
@@ -55,7 +49,7 @@
   color: #333;
   border-radius: 5px; }
   .character-class-range .character-class-range__body {
-    padding: 4px 10px;
+    padding: 5px;
     text-align: center; }
   .character-class-range .character-class-range__delimiter {
     opacity: .3; }
@@ -64,67 +58,63 @@
     width: 100%;
     height: 1px;
     background-color: magenta; }
-.quantifier .quantifier__children-body {
-  display: inline-block; }
-
-.quantifier .quantifier__description {
-  font-size: 10px;
-  color: #989898; }
 :root {
-  --group-1-background: #b4d6ef;
-  --group-2-background: #b7b3ef;
-  --group-3-background: #b4efb4;
-  --group-4-background: #e6b4ef;
-  --group-5-background: #efe2b4;
-  --group-6-background: #b4efee; }
+  --block-radius: 10px; }
 
-.group {
+.quantifier {
   position: relative;
   display: grid;
-  grid-row-gap: 5px;
-  grid-auto-flow: row;
-  padding: 5px;
-  background: rgba(255, 255, 255, 0.25);
-  border-radius: 5px; }
-  .group._1 {
-    background-color: var(--group-1-background); }
-  .group._2 {
-    background-color: var(--group-2-background); }
-  .group._3 {
-    background-color: var(--group-3-background); }
-  .group._4 {
-    background-color: var(--group-4-background); }
-  .group._5 {
-    background-color: var(--group-5-background); }
-  .group._6 {
-    background-color: var(--group-6-background); }
-  .group._lookahead, .group._negativeLookahead {
-    padding: 8px;
-    border-radius: 12px;
-    border-width: 2px;
-    border-style: dashed; }
-  .group._lookahead {
-    border-color: rgba(85, 85, 85, 0.5); }
+  grid-row-gap: 2px;
+  grid-auto-flow: row; }
+  .quantifier .node {
+    justify-self: start; }
+  .quantifier .quantifier__description {
+    font-size: .6em;
+    color: #444; }
+:root {
+  --block-radius: 10px; }
+
+.group {
+  position: relative; }
+  .group .group__body {
+    display: grid;
+    grid-row-gap: 5px;
+    grid-auto-flow: row;
+    padding: 5px;
+    border-radius: 8px; }
+  .group._normal._1 .group__body {
+    background-color: #cdefcd; }
+  .group._normal._2 .group__body {
+    background-color: #bce7eb; }
+  .group._normal._3 .group__body {
+    background-color: #d8d8f3; }
+  .group._normal._4 .group__body {
+    background-color: #f3d8f3; }
+  .group._normal._5 .group__body {
+    background-color: #f0d0d0; }
+  .group._normal._6 .group__body {
+    background-color: #e8e8c4; }
+  .group._normal._next .group__body {
+    background-color: rgba(0, 0, 0, 0.06); }
+  .group._lookahead .group__body, .group._negativeLookahead .group__body {
+    border: 2px dotted #fff; }
   .group._negativeLookahead {
     border-color: #f00; }
   .group .group__title {
-    font-size: .55em;
-    color: #989898; }
+    font-size: .6em;
+    color: #676767;
+    mix-blend-mode: difference; }
   .group .group__children {
     display: grid;
     grid-column-gap: 5px;
     grid-auto-flow: column;
     align-items: start;
-    min-width: 40px; }
+    justify-content: center; }
   .group > .baseline {
     position: absolute;
     width: 100%;
     height: 1px;
     background-color: rgba(0, 255, 0, 0.5); }
-.connector {
-  position: absolute; }
-  .connector path {
-    stroke: #979797; }
 .disjunction {
   position: relative;
   display: flex;
@@ -133,31 +123,30 @@
   padding: 0 50px; }
   .disjunction > *:not(:last-child) {
     margin-bottom: 10px; }
+:root {
+  --block-radius: 10px; }
+
 .character-class {
   position: relative;
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column; }
-  .character-class._negative {
-    background-color: rgba(255, 0, 0, 0.2); }
+  display: grid;
+  grid-auto-flow: row; }
   .character-class .character-class__title {
-    align-self: flex-start;
+    justify-self: start;
     font-size: .6em;
     color: #989898;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     background-color: #fff;
-    vertical-align: bottom;
     padding: 3px 8px 0;
     margin: 0 10px; }
   .character-class .character-class__children {
     display: flex;
+    border-radius: 8px;
+    background-color: #fff;
+    padding: 5px;
     flex-direction: row;
     align-content: stretch;
-    justify-content: center;
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 4px; }
+    justify-content: center; }
   .character-class .character-class__child-wrapper:not(:first-child) {
     padding-left: 4px; }
   .character-class .character-class__child-wrapper:not(:last-child) {
@@ -169,12 +158,7 @@
     height: 1px;
     background-color: rgba(0, 128, 0, 0.5); }
 :root {
-  --group-1-background: #b4d6ef;
-  --group-2-background: #b7b3ef;
-  --group-3-background: #b4efb4;
-  --group-4-background: #e6b4ef;
-  --group-5-background: #efe2b4;
-  --group-6-background: #b4efee; }
+  --block-radius: 10px; }
 
 .alternative {
   position: relative; }
@@ -190,11 +174,16 @@
     height: 1px;
     background-color: rgba(0, 0, 255, 0.5); }
 .graph {
-  border: 1px solid #ccc;
-  display: grid;
-  grid-column-gap: 10px;
-  grid-auto-flow: column;
-  align-items: center; }
+  font-size: 22px; }
+  .graph .graph__body {
+    position: relative;
+    display: grid;
+    grid-column-gap: 10px;
+    grid-auto-flow: column;
+    align-items: flex-start; }
+  .graph .graph__point circle {
+    stroke: #b6b6b6;
+    fill: none; }
 html,
 body {
   height: 100%; }
@@ -210,7 +199,7 @@ body {
   display: flex;
   flex-direction: column;
   height: 100%;
-  background-color: #d3e2e7; }
+  background-color: #ebf0f2; }
 
 .editor__scene {
   align-content: center;

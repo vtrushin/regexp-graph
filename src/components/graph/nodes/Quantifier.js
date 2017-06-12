@@ -1,35 +1,34 @@
 import { Component } from 'react'
-import nodeByType from '../node-by-type'
 import equal from 'deep-equal'
+import rectToObject from '../../../utils/rect-to-object'
+import Connector from '../connector/Connector'
+import nodeByType from '../node-by-type'
 import './Quantifier.sass'
 
 export default class Quantifier extends Component {
 	constructor(props) {
 		super(props)
-		this.childrenDimensions = {}
+		this.childDimensions = null
 		this.state = {
 			dimensions: null,
-			childrenDimensions: null
+			childDimensions: null
 		}
 	}
 
 	updateDimensions() {
-		const parentRect = this.el.getBoundingClientRect()
-		const childrenBodyRect = this.childrenBody.getBoundingClientRect()
-		const childrenBodyTop = childrenBodyRect.top - parentRect.top
-		const baselines = Object.keys(this.childrenDimensions).map(key => childrenBodyTop + this.childrenDimensions[key].baseline)
+		const parentRect = rectToObject(this.el.getBoundingClientRect())
+		const baseline = this.childDimensions
+			? this.childDimensions.baseline + this.childDimensions.rect.top - parentRect.top
+			: parentRect.top
+
 		const dimensions = {
-			left: parentRect.left,
-			right: parentRect.right,
-			top: parentRect.top,
-			width: parentRect.width,
-			height: parentRect.height,
-			baseline: Math.max(...baselines)
+			rect: { ...parentRect },
+			baseline
 		}
 
 		this.setState({
 			dimensions,
-			childrenDimensions: { ...this.childrenDimensions }
+			childDimensions: this.childDimensions
 		})
 
 		if (this.props.onDimensionsChanged) {
@@ -38,7 +37,7 @@ export default class Quantifier extends Component {
 	}
 
 	componentDidUpdate() {
-		if (!equal(this.childrenDimensions, this.state.childrenDimensions)) {
+		if (!equal(this.childDimensions, this.state.childDimensions)) {
 			this.updateDimensions()
 		}
 	}
@@ -47,16 +46,46 @@ export default class Quantifier extends Component {
 		this.updateDimensions()
 	}
 
+	renderConnector() {
+		if (!this.state.dimensions || !this.state.childDimensions) {
+			return
+		}
+
+		return (
+			<Connector
+				key={ 0 }
+				fromX={ this.state.childDimensions.rect.right - this.state.dimensions.rect.left }
+				fromY={ this.state.dimensions.baseline }
+				toX={ this.state.dimensions.rect.width }
+				toY={ this.state.dimensions.baseline }
+			/>
+		)
+	}
+
+	renderChild() {
+		const node = this.props.data.body[0]
+		const Node = nodeByType[node.type]
+
+		return (
+			<Node
+				{ ...this.props }
+				style={ null }
+				data={ node }
+				onDimensionsChanged={ dimensions => this.childDimensions = dimensions }
+			/>
+		)
+	}
+
 	renderDescription() {
 		let text
 
-		const { min, max } = this.props.data
+		const { /*greedy, */min, max } = this.props.data
 
-		if (min && max && min !== max) {
+		if (!isNaN(min) && !isNaN(max) && min !== max) {
 			text = `${min}…${max} times`
-		} else if (min) {
+		} else if (!isNaN(min)) {
 			text = `${min}+ times`
-		} else if (max) {
+		} else if (!isNaN(max)) {
 			text = `max ${max} times`
 		}
 
@@ -65,38 +94,15 @@ export default class Quantifier extends Component {
 		)
 	}
 
-	renderChildren() {
-		let maxBaseline
-
-		if (this.state.childrenDimensions) {
-			const baselines = Object.keys(this.state.childrenDimensions).map(key => this.state.childrenDimensions[key].baseline)
-			maxBaseline = Math.max(...baselines)
+	render() {
+		if (!this.props.data.body) {
+			return null
 		}
 
-		return this.props.data.body.map((node, i) => {
-			const Node = nodeByType[node.type]
-			const nodeDimensions = this.state.childrenDimensions && this.state.childrenDimensions[i]
-
-			return (
-				<Node
-					{ ...this.props }
-					style={{ marginTop: maxBaseline && nodeDimensions ? maxBaseline - nodeDimensions.baseline : 0 }}
-					data={ node }
-					onDimensionsChanged={ dimensions => this.childrenDimensions[i] = dimensions }
-					key={ i }
-				/>
-			)
-		})
-	}
-
-	render() {
 		return (
 			<div className={ `node quantifier _${this.props.data.behavior}` } style={ this.props.style } ref={ el => this.el = el }>
-				<div className="quantifier__children">
-					<div className="quantifier__children-body" ref={ el => this.childrenBody = el }>
-						{ this.renderChildren() }
-					</div>
-				</div>
+				{ this.renderConnector() }
+				{ this.renderChild() }
 				{ this.renderDescription() }
 			</div>
 		)

@@ -2,50 +2,54 @@
 
 .group
 	position: relative
-	display: grid
-	grid-row-gap: 5px
-	grid-auto-flow: row
-	padding: 5px
-	background: rgba(white, .25)
-	border-radius: 5px
 
-	&._1
-		background-color: var(--group-1-background)
-	&._2
-		background-color: var(--group-2-background)
-	&._3
-		background-color: var(--group-3-background)
-	&._4
-		background-color: var(--group-4-background)
-	&._5
-		background-color: var(--group-5-background)
-	&._6
-		background-color: var(--group-6-background)
+	.group__body
+		display: grid
+		grid-row-gap: $block-gap
+		grid-auto-flow: row
+		padding: $block-padding
+		//background: rgba(white, .25)
+		border-radius: $block-radius
+		//border: 1px solid rgba(0, 0, 0, .03)
+
+	&._normal
+		&._1 .group__body
+			background-color: $group-1-background
+		&._2 .group__body
+			background-color: $group-2-background
+		&._3 .group__body
+			background-color: $group-3-background
+		&._4 .group__body
+			background-color: $group-4-background
+		&._5 .group__body
+			background-color: $group-5-background
+		&._6 .group__body
+			background-color: $group-6-background
+		&._next .group__body
+			background-color: $group-next-background
 
 	&._lookahead,
 	&._negativeLookahead
-		padding: 8px
-		border-radius: 12px
-		border-width: 2px
-		border-style: dashed
+		.group__body
+			border: 2px dotted #fff
 
-	&._lookahead
-		border-color: rgba(#555, .5)
+	//&._lookahead
+	//	border-color: rgba(#555, .5)
 
 	&._negativeLookahead
 		border-color: #f00
 
 	.group__title
-		font-size: .55em
-		color: #989898
+		font-size: .6em
+		color: #676767
+		mix-blend-mode: difference
 
 	.group__children
 		display: grid
 		grid-column-gap: 5px
 		grid-auto-flow: column
 		align-items: start
-		//justify-items: start
-		min-width: 40px
+		justify-content: center
 
 	& > .baseline
 		position: absolute

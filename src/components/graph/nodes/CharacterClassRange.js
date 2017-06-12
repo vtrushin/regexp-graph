@@ -50,7 +50,7 @@ export default class CharacterClassRange extends Component {
 					<span className="character-class-range__delimiter">…</span>
 					{ this.props.data.max.raw }
 				</div>
-				{ this.renderBaseline() }
+				{/*{ this.renderBaseline() }*/}
 			</div>
 		)
 	}
