@@ -1,6 +1,6 @@
 # regexp-editor
 
-https://rawgit.com/regexp-graph/regexp-editor/0.0.1/dist/index.html
+https://regexp-graph.github.io/regexp-graph/
 
 ## Types
 
