@@ -1,0 +1,40 @@
+@import "../variables"
+
+.value
+	position: relative
+	background-color: white
+	color: #333
+	border-radius: $value-radius
+	//box-shadow: 0 1px 2px rgba(0, 0, 0, .05)
+	//border: 1px solid rgba(0, 0, 0, .15)
+	$color: #bd0fe1
+
+	.value__body
+		padding: $value-padding
+		text-align: center
+
+	& > .baseline
+		position: absolute
+		width: 100%
+		height: 1px
+		background-color: magenta
+
+	.value__special
+		font-size: .65em
+		padding: 2px 5px
+		border: 1px solid rgba(#000, .15)
+		border-radius: 4px
+
+		//&._any
+		//	font-size: .65em
+		//	padding: 2px 5px
+		//	color: $color
+		//	border-radius: 4px
+		//	background-color: rgba($color, .1)
+
+
+	.unicode-symbol
+		font-family: Monaco, monospace
+		color: #50e3c2
+		i
+			opacity: .5
