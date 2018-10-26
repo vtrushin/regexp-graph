@@ -1,0 +1,7 @@
+.connector {
+	position: absolute;
+}
+
+.connector path {
+	stroke: #b6b6b6;
+}

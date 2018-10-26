@@ -1,11 +1,11 @@
-import { Component } from 'react'
+import React from 'react'
 import equal from 'deep-equal'
-import rectToObject from '../../../utils/rect-to-object'
-import Connector from '../connector/Connector'
+import getClientRect from '../../../utils/get-client-rect'
+import Connector from '../connector/connector'
 import nodeByType from '../node-by-type'
-import './Quantifier.sass'
+import './quantifier.css'
 
-export default class Quantifier extends Component {
+export default class Quantifier extends React.Component {
 	constructor(props) {
 		super(props)
 		this.childDimensions = null
@@ -16,7 +16,7 @@ export default class Quantifier extends Component {
 	}
 
 	updateDimensions() {
-		const parentRect = rectToObject(this.el.getBoundingClientRect())
+		const parentRect = getClientRect(this.el)
 		const baseline = this.childDimensions
 			? this.childDimensions.baseline + this.childDimensions.rect.top - parentRect.top
 			: parentRect.top

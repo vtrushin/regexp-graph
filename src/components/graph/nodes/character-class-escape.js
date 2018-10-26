@@ -1,7 +1,7 @@
-import { Component } from 'react'
+import React from 'react'
 import equal from 'deep-equal'
-import rectToObject from '../../../utils/rect-to-object'
-import './CharacterClassEscape.sass'
+import getClientRect from '../../../utils/get-client-rect'
+import './character-class-escape.css'
 
 const types = {
 	'd': 'digit',
@@ -12,7 +12,7 @@ const types = {
 	'W': 'non-alphanumeric'
 }
 
-export default class CharacterClassEscape extends Component {
+export default class CharacterClassEscape extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -34,12 +34,12 @@ export default class CharacterClassEscape extends Component {
 	}
 
 	componentDidMount() {
-		const rect = rectToObject(this.el.getBoundingClientRect())
+		const rect = getClientRect(this.el)
 		this.updateDimensions(rect)
 	}
 
 	componentDidUpdate() {
-		const rect = rectToObject(this.el.getBoundingClientRect())
+		const rect = getClientRect(this.el)
 		if (!equal(rect, this.state.dimensions.rect)) {
 			this.updateDimensions(rect)
 		}

@@ -1,11 +1,11 @@
-import { Component } from 'react'
+import React from 'react'
 import equal from 'deep-equal'
-import rectToObject from '../../../utils/rect-to-object'
-import Connector from '../connector/Connector'
+import getClientRect from '../../../utils/get-client-rect'
+import Connector from '../connector/connector'
 import nodeByType from '../node-by-type'
-import './Disjunction.sass'
+import './disjunction.css'
 
-export default class Disjunction extends Component {
+export default class Disjunction extends React.Component {
 	constructor(props) {
 		super(props)
 		this.childrenDimensions = {}
@@ -16,7 +16,7 @@ export default class Disjunction extends Component {
 	}
 
 	updateDimensions() {
-		const parentRect = rectToObject(this.el.getBoundingClientRect())
+		const parentRect = getClientRect(this.el)
 		const dimensions = {
 			rect: { ...parentRect },
 			baseline: parentRect.height / 2

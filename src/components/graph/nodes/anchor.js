@@ -1,23 +1,25 @@
-import { Component } from 'react'
+import React from 'react'
 import equal from 'deep-equal'
-import rectToObject from '../../../utils/rect-to-object'
-import './Anchor.sass'
+import getClientRect from '../../../utils/get-client-rect'
+import './anchor.css'
 
-export default class Anchor extends Component {
+export default class Anchor extends React.Component {
 	constructor(props) {
 		super(props)
+
 		this.state = {
-			dimensions: null
+			rect: null,
+			// dimensions: null
 		}
 	}
 
 	updateDimensions(rect) {
-		const dimensions = {
-			rect: { ...rect },
-			baseline: rect.height / 2
-		}
+		// const dimensions = {
+		// 	rect: { ...rect },
+		// 	baseline: rect.height / 2
+		// }
 
-		this.setState({ dimensions })
+		this.setState({ rect })
 
 		if (this.props.onDimensionsChanged) {
 			this.props.onDimensionsChanged(dimensions)
@@ -25,12 +27,12 @@ export default class Anchor extends Component {
 	}
 
 	componentDidMount() {
-		const rect = rectToObject(this.el.getBoundingClientRect())
+		const rect = getClientRect(this.el)
 		this.updateDimensions(rect)
 	}
 
 	componentDidUpdate() {
-		const rect = rectToObject(this.el.getBoundingClientRect())
+		const rect = getClientRect(this.el)
 		if (!equal(rect, this.state.dimensions.rect)) {
 			this.updateDimensions(rect)
 		}
@@ -38,7 +40,7 @@ export default class Anchor extends Component {
 
 	renderBaseline() {
 		if (this.state.dimensions) {
-			return <div className="baseline" style={{ top: this.state.dimensions.baseline }}></div>
+			return <div className="baseline" style={{ top: this.state.dimensions.baseline }} />
 		}
 	}
 

@@ -1,6 +1,6 @@
 import React from 'react'
-import thunk from 'redux-thunk'
-import { render } from 'react-dom'
+import ReactDOM from 'react-dom'
+// import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import parse from './parse'
@@ -11,9 +11,10 @@ import App from './containers'
 // const initValue = '((a(a(a)))|(b(b))|(c(c)))'
 // const initValue = '((ab)c)|sd(?=ds)'
 // const initValue = '()'
-//
-const initValue = '(a(b(c(d(e(f))))))'
+// const initValue = '(a(b(c(d(e(f))))))'
+// const initValue = 'ab'
 // const initValue = '(a)(b)(c)(d)(e)(f)'
+const initValue = 'asd[asdasdsafdafdf]asd'
 // const initValue = 'ab+'
 // const initValue = '^<([a-z]+)([^<]+)*(?:>(.*)<\\/\\1>|\\s+\\/>)$'
 // const initValue = '(?:>(.*)<\\/\\1>|\\s+\\/>)'
@@ -34,9 +35,10 @@ const store = createStore(
 // 	console.log(args)
 // })
 
-render(
-	<Provider store={ store }>
+const component = (
+	<Provider store={store}>
 		<App />
-	</Provider>,
-	document.getElementById('app')
-)
+	</Provider>
+);
+
+ReactDOM.render(component, document.getElementById('app'))

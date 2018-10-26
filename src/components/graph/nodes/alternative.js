@@ -1,12 +1,12 @@
-import { Component } from 'react'
+import React from 'react'
 import equal from 'deep-equal'
-import rectToObject from '../../../utils/rect-to-object'
-import Connector from '../connector/Connector'
+import getClientRect from '../../../utils/get-client-rect'
+import Connector from '../connector/connector'
 import nodeByType from '../node-by-type'
 import pointsToConnectors from '../points-to-connectors'
-import './Alternative.sass'
+import './alternative.css'
 
-export default class Alternative extends Component {
+export default class Alternative extends React.Component {
 	constructor(props) {
 		super(props)
 		this.childrenDimensions = {}
@@ -17,7 +17,7 @@ export default class Alternative extends Component {
 	}
 
 	updateDimensions() {
-		const parentRect = rectToObject(this.el.getBoundingClientRect())
+		const parentRect = getClientRect(this.el)
 		const baselines = Object.keys(this.childrenDimensions).map(key => {
 			const { baseline, rect: { top } } = this.childrenDimensions[key]
 			return baseline + top - parentRect.top
@@ -102,7 +102,7 @@ export default class Alternative extends Component {
 
 	renderBaseline() {
 		if (this.state.dimensions) {
-			return <div className="baseline" style={{ top: this.state.dimensions.baseline }}></div>
+			return <div className="baseline" style={{ top: this.state.dimensions.baseline }} />
 		}
 	}
 

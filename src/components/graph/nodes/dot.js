@@ -1,9 +1,9 @@
-import { Component } from 'react'
+import React from 'react'
 import equal from 'deep-equal'
-import rectToObject from '../../../utils/rect-to-object'
-import './Dot.sass'
+import getClientRect from '../../../utils/get-client-rect'
+import './dot.css'
 
-export default class Dot extends Component {
+export default class Dot extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -25,12 +25,12 @@ export default class Dot extends Component {
 	}
 
 	componentDidMount() {
-		const rect = rectToObject(this.el.getBoundingClientRect())
+		const rect = getClientRect(this.el)
 		this.updateDimensions(rect)
 	}
 
 	componentDidUpdate() {
-		const rect = rectToObject(this.el.getBoundingClientRect())
+		const rect = getClientRect(this.el)
 		if (!equal(rect, this.state.dimensions.rect)) {
 			this.updateDimensions(rect)
 		}
@@ -38,7 +38,7 @@ export default class Dot extends Component {
 
 	render() {
 		return (
-			<span className="node value" style={ this.props.style } ref={ el => this.el = el }>
+			<span className="node value" style={this.props.style} ref={el => this.el = el}>
 				<span className="dot">any</span>
 			</span>
 		)

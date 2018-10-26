@@ -6,9 +6,9 @@ export default value => {
 
 	try {
 		tree = parser.parse(value)
-		console.log('tree', tree)
+		// console.log('tree', tree)
 	} catch (e) {
-		console.error('parse error')
+		// console.error('parse error')
 	}
 
 	let groupIndex = 1

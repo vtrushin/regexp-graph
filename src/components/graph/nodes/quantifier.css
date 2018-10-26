@@ -1,0 +1,17 @@
+@import '../variables.css';
+
+.quantifier {
+	position: relative;
+	display: grid;
+	grid-row-gap: 2px;
+	grid-auto-flow: row;
+}
+
+.quantifier .node {
+	justify-self: start;
+}
+
+.quantifier__description {
+	font-size: .6em;
+	color: #444;
+}

@@ -1,6 +1,4 @@
-export function changeValue(text) {
-	return {
-		type: 'CHANGE_VALUE',
-		text
-	}
-}
+export const changeValue = text => ({
+	type: 'CHANGE_VALUE',
+	text
+})

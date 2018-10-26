@@ -55,7 +55,6 @@ class Block extends React.Component {
 	}
 
 	componentDidUpdate() {
-
 		if (!compareMaps(this.rects, this.state.rects)) {
 			this.updateDimensions()
 		}

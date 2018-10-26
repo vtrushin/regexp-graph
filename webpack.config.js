@@ -1,41 +1,59 @@
-const path = require('path')
-const webpack = require('webpack')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const WebpackNotifierPlugin = require('webpack-notifier')
 
 module.exports = {
-	// entry: './src/test.js',
+	mode: 'development',
 	entry: './src/index.js',
 	output: {
-		path: path.resolve(__dirname),
+		path: __dirname,
 		filename: 'bundle.js'
 	},
-	// devtool: 'cheap-module-eval-source-map',
 	module: {
-		loaders: [
+		rules: [
+			// {
+			// 	enforce: 'pre',
+			// 	test: /\.(js|jsx)$/,
+			// 	exclude: /node_modules/,
+			// 	use: 'eslint-loader'
+			// },
 			{
-				test: /\.jsx?$/,
-				loader: 'babel-loader',
+				test: /\.(js|jsx)$/,
 				exclude: /node_modules/,
-				query: {
-					presets: ['react', 'es2017', 'stage-0']
+				use: {
+					loader: 'babel-loader',
+					// options: {
+					// 	presets: ['@babel/preset-env', '@babel/preset-react']
+					// }
 				}
 			},
 			{
-				test: /\.sass$/,
-				loader: ExtractTextPlugin.extract({
-					fallback: 'style-loader',
-					use: ['css-loader', 'sass-loader']
-				})
+				test: /\.css$/,
+				use: [
+					MiniCssExtractPlugin.loader,
+					// 'style-loader',
+					'css-loader',
+					{
+						loader: 'postcss-loader',
+						options: {
+							ident: 'postcss',
+							plugins: [
+								// require('postcss-cssnext')({
+								// 	stage: 3,
+								// 	features: {
+								// 		'color-mod-function': { unresolved: 'warn' }
+								// 	}
+								// }),
+								// require('postcss-color-function')(),
+								// require('postcss-custom-properties')(),
+							]
+						}
+					}
+				]
 			}
 		]
 	},
 	plugins: [
-		new ExtractTextPlugin('app.css'),
-		// new webpack.optimize.UglifyJsPlugin(),
-		new WebpackNotifierPlugin(),
-		new webpack.ProvidePlugin({
-			React: 'react'
-		})
+		new MiniCssExtractPlugin({ filename: 'main.css' }),
+		new WebpackNotifierPlugin()
 	]
 }

@@ -1,0 +1,70 @@
+@import '../variables.css';
+@import './graph/variables.css';
+
+html,
+body {
+	height: 100%;
+}
+
+body {
+	margin: 0;
+	font-family: Verdana;
+}
+
+.app {
+	height: 100%;
+}
+
+.editor {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	/*!! //background-color: #d3e2e7;*/
+	background-color: #ebf0f2;
+	color: color(white whiteness(-20%));
+	/*!! //background-color: #e4edf0;*/
+}
+
+.editor__scene {
+	align-content: center;
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.editor__form {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	grid-gap: 20px;
+	padding: 20px;
+	align-items: center;
+}
+
+.editor__form input[type='text'] {
+	/*flex: 1;*/
+	grid-column: span 1;
+	border: none;
+	font: 20px Monaco, monospace;
+	margin: 0;
+	padding: 10px;
+	box-sizing: border-box;
+	outline: none;
+}
+
+.editor__checkboxes {
+	display: grid;
+	grid-auto-flow: column;
+	grid-gap: 10px;
+}
+
+.checkbox {
+	display: grid;
+	grid-auto-flow: column;
+	font-size: 12px;
+	align-items: center;
+}
+
+.checkbox span {
+	flex: 1;
+}

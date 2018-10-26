@@ -1,4 +1,23 @@
-$border-radius: 5px
+:root {
+	--border-radius: 5px;
+	--block-radius: 8px;
+	--block-padding: 5px;
+	--block-gap: 5px;
+	--value-padding: 5px;
+	--balue-radius: 5px;
+	--saturation: 54%;
+	--lightness: 90%;
+
+	--group-1-color: #cdefcd;
+	--group-2-color: #bce7eb;
+	--group-3-color: #d8d8f3;
+	--group-4-color: #f3d8f3;
+	--group-5-color: #f0d0d0;
+	--group-6-color: #e8e8c4;
+	--group-next-color: rgba(0, 0, 0, .06);
+}
+
+/*$border-radius: 5px
 
 $block-radius: 8px
 $block-padding: 5px
@@ -20,4 +39,4 @@ $group-6-background: hsl(360 / 6 * 1, $saturation - 10%, $lightness - 6%)
 $group-next-background: rgba(0, 0, 0, .06)
 
 \:root
-	--block-radius: 10px
+	--block-radius: 10px*/

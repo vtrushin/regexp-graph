@@ -9,6 +9,8 @@ export default (state = {}, action) => {
 			}
 		}
 
-		default: return state
+		default: {
+			return state
+		}
 	}
 }
