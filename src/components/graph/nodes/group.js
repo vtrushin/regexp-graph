@@ -42,7 +42,9 @@ export default class Group extends React.Component {
 				{ this.renderConnectors() }
 				<div className='group__body'>
 					{ data.behavior === 'normal' && (
-						<div className='group__title'>Group #{index}</div>
+						<div className='group__title'>
+							<div className='group__title__body'>Group #{index}</div>
+						</div>
 					) }
 					<div className='group__children'>
 						{ this.renderChildren() }

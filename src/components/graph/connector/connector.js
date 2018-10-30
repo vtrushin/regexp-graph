@@ -17,15 +17,15 @@ const Connector = props => {
 	const minX = Math.min(fromX, toX)
 	const minY = Math.min(fromY, toY)
 
-	const d = /*roundPathCorners(*/
+	const d = roundPathCorners(
 		path(
 			moveTo(fromX - minX, fromY - minY + strokeWidth / 2),
 			lineTo(turn - minX, fromY - minY + strokeWidth / 2),
 			lineTo(turn - minX, toY - minY + strokeWidth / 2),
 			lineTo(toX - minX, toY - minY + strokeWidth / 2)
-		)/*,
+		),
 		roundRadius
-	)*/
+	)
 
 	const style = {
 		left: minX,

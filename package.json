@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "deep-equal": "^1.0.1",
+    "js-md5": "^0.7.3",
     "react": "^16.5.2",
     "react-redux": "^5.0.4",
     "redux": "^4.0.0",

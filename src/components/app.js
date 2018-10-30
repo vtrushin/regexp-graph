@@ -23,6 +23,8 @@ export default class App extends React.Component {
 	renderGraph() {
 		const { ast } = this.props
 
+		console.log('ast', ast);
+
 		if (ast) {
 			return <Graph {...this.props} data={ast} />
 		}

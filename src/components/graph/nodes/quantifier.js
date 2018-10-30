@@ -47,17 +47,19 @@ export default class Quantifier extends React.Component {
 	}
 
 	renderConnector() {
-		if (!this.state.dimensions || !this.state.childDimensions) {
+		const { dimensions, childDimensions } = this.state
+
+		if (!dimensions || !childDimensions) {
 			return
 		}
 
 		return (
 			<Connector
-				key={ 0 }
-				fromX={ this.state.childDimensions.rect.right - this.state.dimensions.rect.left }
-				fromY={ this.state.dimensions.baseline }
-				toX={ this.state.dimensions.rect.width }
-				toY={ this.state.dimensions.baseline }
+				key={0}
+				fromX={childDimensions.rect.right - dimensions.rect.left }
+				fromY={dimensions.baseline}
+				toX={dimensions.rect.width}
+				toY={dimensions.baseline}
 			/>
 		)
 	}
@@ -68,10 +70,10 @@ export default class Quantifier extends React.Component {
 
 		return (
 			<Node
-				{ ...this.props }
-				style={ null }
-				data={ node }
-				onDimensionsChanged={ dimensions => this.childDimensions = dimensions }
+				{...this.props}
+				style={null}
+				data={node}
+				onDimensionsChanged={dimensions => this.childDimensions = dimensions}
 			/>
 		)
 	}
@@ -80,27 +82,39 @@ export default class Quantifier extends React.Component {
 		let text
 
 		const { /*greedy, */min, max } = this.props.data
+		const hasMin = !isNaN(min)
+		const hasMax = !isNaN(max)
 
-		if (!isNaN(min) && !isNaN(max) && min !== max) {
-			text = `${min}…${max} times`
-		} else if (!isNaN(min)) {
+		if (!hasMin) {
+			return null;
+		}
+
+		if (hasMax) {
+			if (min === max) {
+				text = `${min} times`
+			} else {
+				text = `${min}…${max} times`
+			}
+		} else {
 			text = `${min}+ times`
-		} else if (!isNaN(max)) {
-			text = `max ${max} times`
 		}
 
 		return (
-			<div className="quantifier__description">{ text }</div>
+			<div className='quantifier__description'>
+				{ text }
+			</div>
 		)
 	}
 
 	render() {
-		if (!this.props.data.body) {
+		const { data, style } = this.props
+
+		if (!data.body) {
 			return null
 		}
 
 		return (
-			<div className={ `node quantifier _${this.props.data.behavior}` } style={ this.props.style } ref={ el => this.el = el }>
+			<div className={`node quantifier _${data.behavior}`} style={style} ref={el => this.el = el}>
 				{ this.renderConnector() }
 				{ this.renderChild() }
 				{ this.renderDescription() }

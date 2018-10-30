@@ -1,17 +1,13 @@
+@import '../variables.css';
+
 .anchor {
 	position: relative;
 	text-transform: uppercase;
+	border-radius: var(--border-radius);
 	background-color: #fff;
-	font-size: 15px;
+	/*font-size: 15px;*/
 }
 
 .anchor__body {
-	padding: 2px;
-}
-
-.anchor > .baseline {
-	position: absolute;
-	width: 100%;
-	height: 1px;
-	background-color: magenta;
+	padding: var(--block-padding);
 }

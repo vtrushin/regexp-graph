@@ -6,20 +6,19 @@ import './anchor.css'
 export default class Anchor extends React.Component {
 	constructor(props) {
 		super(props)
-
 		this.state = {
 			rect: null,
-			// dimensions: null
+			dimensions: null
 		}
 	}
 
 	updateDimensions(rect) {
-		// const dimensions = {
-		// 	rect: { ...rect },
-		// 	baseline: rect.height / 2
-		// }
+		const dimensions = {
+			rect: { ...rect },
+			baseline: rect.height / 2
+		}
 
-		this.setState({ rect })
+		this.setState({ dimensions })
 
 		if (this.props.onDimensionsChanged) {
 			this.props.onDimensionsChanged(dimensions)

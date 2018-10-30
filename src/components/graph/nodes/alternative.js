@@ -5,6 +5,7 @@ import Connector from '../connector/connector'
 import nodeByType from '../node-by-type'
 import pointsToConnectors from '../points-to-connectors'
 import './alternative.css'
+import md5 from 'js-md5'
 
 export default class Alternative extends React.Component {
 	constructor(props) {
@@ -17,6 +18,8 @@ export default class Alternative extends React.Component {
 	}
 
 	updateDimensions() {
+		const { onDimensionsChanged } = this.props
+
 		const parentRect = getClientRect(this.el)
 		const baselines = Object.keys(this.childrenDimensions).map(key => {
 			const { baseline, rect: { top } } = this.childrenDimensions[key]
@@ -32,8 +35,8 @@ export default class Alternative extends React.Component {
 			childrenDimensions: { ...this.childrenDimensions }
 		})
 
-		if (this.props.onDimensionsChanged) {
-			this.props.onDimensionsChanged(dimensions)
+		if (onDimensionsChanged) {
+			onDimensionsChanged(dimensions)
 		}
 	}
 
@@ -48,67 +51,134 @@ export default class Alternative extends React.Component {
 	}
 
 	renderConnectors() {
+		const { data } = this.props
+		const { dimensions, childrenDimensions } = this.state
+
 		if (!this.state.childrenDimensions) {
 			return
 		}
 
-		const dimensions = []
+		const collectedDimensions = []
 
-		this.props.data.body.filter(node => node.raw !== '').forEach((node, i) => {
-			const nodeDimensions = this.state.childrenDimensions[i]
+		data.body.filter(node => node.raw !== '').forEach((node, i) => {
+			const nodeDimensions = childrenDimensions[i]
 			if (nodeDimensions) {
-				dimensions.push({
-					left: nodeDimensions.rect.left - this.state.dimensions.rect.left,
-					right: nodeDimensions.rect.right - this.state.dimensions.rect.left,
-					baseline: nodeDimensions.baseline + nodeDimensions.rect.top - this.state.dimensions.rect.top
+				collectedDimensions.push({
+					left: nodeDimensions.rect.left - dimensions.rect.left,
+					right: nodeDimensions.rect.right - dimensions.rect.left,
+					baseline: nodeDimensions.baseline + nodeDimensions.rect.top - dimensions.rect.top
 				})
 			}
 		})
 
-		return pointsToConnectors(dimensions).map(connector => (
+		return pointsToConnectors(collectedDimensions).map(connector => (
 			<Connector
-				key={ `${connector.start.x}:${connector.start.y}:${connector.end.x}:${connector.end.y}` }
-				fromX={ connector.start.x }
-				fromY={ connector.start.y }
-				toX={ connector.end.x }
-				toY={ connector.end.y }
+				key={`${connector.start.x}:${connector.start.y}:${connector.end.x}:${connector.end.y}`}
+				fromX={connector.start.x}
+				fromY={connector.start.y}
+				toX={connector.end.x}
+				toY={connector.end.y}
 			/>
 		))
 	}
 
+
+
 	renderChildren() {
+		const { data } = this.props
+		const { childrenDimensions } = this.state
+
 		let maxBaseline
 
-		if (this.state.childrenDimensions) {
-			const baselines = Object.keys(this.state.childrenDimensions).map(key => this.state.childrenDimensions[key].baseline)
+		if (childrenDimensions) {
+			const baselines = Object.keys(childrenDimensions).map(key => childrenDimensions[key].baseline)
 			maxBaseline = Math.max(...baselines)
 		}
 
-		return this.props.data.body.map((node, i) => {
+		// const groups = data.body.reduce((acc, node) => {
+		// 	if (node.type === 'value') {
+		// 		const prevAcc = acc[acc.length - 1]
+		// 		if (prevAcc && prevAcc.type === 'values') {
+		// 			prevAcc.body.push(node)
+		// 			return acc
+		// 		} else {
+		// 			return [...acc, {
+		// 				type: 'values',
+		// 				body: [node]
+		// 			}]
+		// 		}
+		// 	} else {
+		// 		return [...acc, node]
+		// 	}
+		// }, []);
+		//
+		// return groups.map((node, i) => (
+		// 	node.type === 'values'
+		// 		? this.renderValuesGroup({ node, i, childrenDimensions, maxBaseline })
+		// 		: this.renderNode({ node, i, childrenDimensions, maxBaseline })
+		// ))
+
+		return data.body.map((node, i) => {
 			const Node = nodeByType[node.type]
-			const nodeDimensions = this.state.childrenDimensions && this.state.childrenDimensions[i]
+			const nodeDimensions = childrenDimensions && childrenDimensions[i]
 
 			return (
 				<Node
-					{ ...this.props }
+					key={i}
+					{...this.props}
 					style={{ marginTop: maxBaseline && nodeDimensions ? maxBaseline - nodeDimensions.baseline : 0 }}
-					data={ node }
-					onDimensionsChanged={ dimensions => this.childrenDimensions[i] = dimensions }
-					key={ i }
+					data={node}
+					onDimensionsChanged={dimensions => this.childrenDimensions[i] = dimensions}
 				/>
 			)
 		})
 	}
 
+	renderValuesGroup({ node, i, childrenDimensions, maxBaseline }) {
+		const Node = nodeByType[node.type]
+		const nodeDimensions = childrenDimensions && childrenDimensions[i]
+
+		return (
+			<div>
+				{node.body.map((node, i) => (
+					<Node
+						key={i}
+						{...this.props}
+						style={{ marginTop: maxBaseline && nodeDimensions ? maxBaseline - nodeDimensions.baseline : 0 }}
+						data={node}
+						onDimensionsChanged={dimensions => this.childrenDimensions[i] = dimensions}
+					/>
+				))}
+			</div>
+		);
+	}
+
+	renderNode({ node, i, childrenDimensions, maxBaseline }) {
+		const Node = nodeByType[node.type]
+		const nodeDimensions = childrenDimensions && childrenDimensions[i]
+
+		return (
+			<Node
+				key={i}
+				{...this.props}
+				style={{ marginTop: maxBaseline && nodeDimensions ? maxBaseline - nodeDimensions.baseline : 0 }}
+				data={node}
+				onDimensionsChanged={dimensions => this.childrenDimensions[i] = dimensions}
+			/>
+		)
+	}
+
 	renderBaseline() {
-		if (this.state.dimensions) {
-			return <div className="baseline" style={{ top: this.state.dimensions.baseline }} />
+		const { dimensions } = this.state
+
+		if (dimensions) {
+			return <div className="baseline" style={{ top: dimensions.baseline }} />
 		}
 	}
 
 	render() {
 		return (
-			<div className="node alternative" style={ this.props.style } ref={ el => this.el = el }>
+			<div className='node alternative' style={this.props.style} ref={el => this.el = el}>
 				{ this.renderConnectors() }
 				<div className="alternative__children">
 					{ this.renderChildren() }

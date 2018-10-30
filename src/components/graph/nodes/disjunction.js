@@ -43,14 +43,17 @@ export default class Disjunction extends React.Component {
 	}
 
 	renderConnectors() {
-		if (!this.state.dimensions) {
+		const { data } = this.props
+		const { dimensions, childrenDimensions } = this.state
+
+		if (!dimensions) {
 			return null
 		}
 
 		const list = []
 
-		this.props.data.body.filter(node => node.raw !== '').forEach((node, i) => {
-			const childDimensions = this.state.childrenDimensions && this.state.childrenDimensions[i]
+		data.body.filter(node => node.raw !== '').forEach((node, i) => {
+			const childDimensions = childrenDimensions && childrenDimensions[i]
 
 			if (!childDimensions) {
 				return
@@ -58,20 +61,20 @@ export default class Disjunction extends React.Component {
 
 			list.push(
 				<Connector
-					key={ `left:${childDimensions.rect.left}:${childDimensions.rect.right}:${childDimensions.rect.top}` }
-					fromX={ 0 }
-					fromY={ this.state.dimensions.rect.height / 2 }
-					toX={ childDimensions.rect.left - this.state.dimensions.rect.left }
-					toY={ childDimensions.baseline + childDimensions.rect.top - this.state.dimensions.rect.top }
-					turn={ 25 }
+					key={`left:${childDimensions.rect.left}:${childDimensions.rect.right}:${childDimensions.rect.top}`}
+					fromX={0}
+					fromY={dimensions.rect.height / 2}
+					toX={childDimensions.rect.left - dimensions.rect.left}
+					toY={childDimensions.baseline + childDimensions.rect.top - dimensions.rect.top}
+					turn={25}
 				/>,
 				<Connector
-					key={ `right:${childDimensions.rect.left}:${childDimensions.rect.right}:${childDimensions.rect.top}` }
-					fromX={ childDimensions.rect.right - this.state.dimensions.rect.left }
-					fromY={ childDimensions.baseline + childDimensions.rect.top - this.state.dimensions.rect.top }
-					toX={ this.state.dimensions.rect.width }
-					toY={ this.state.dimensions.rect.height / 2 }
-					turn={ this.state.dimensions.rect.width - 25 }
+					key={`right:${childDimensions.rect.left}:${childDimensions.rect.right}:${childDimensions.rect.top}`}
+					fromX={childDimensions.rect.right - dimensions.rect.left}
+					fromY={childDimensions.baseline + childDimensions.rect.top - dimensions.rect.top}
+					toX={dimensions.rect.width}
+					toY={dimensions.rect.height / 2}
+					turn={dimensions.rect.width - 25}
 				/>
 			)
 		})
