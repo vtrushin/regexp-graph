@@ -1,7 +1,7 @@
 import React from 'react'
 import equal from 'deep-equal'
 import getClientRect from '../../../utils/get-client-rect'
-import './value.css'
+import styles from './value.css'
 
 const specials = new Map([
 	[8, 'boundary'],
@@ -21,6 +21,8 @@ export default class Value extends React.Component {
 	}
 
 	updateDimensions(rect) {
+		const { onDimensionsChanged } = this.props
+
 		const dimensions = {
 			rect: { ...rect },
 			baseline: rect.height / 2
@@ -28,8 +30,8 @@ export default class Value extends React.Component {
 
 		this.setState({ dimensions })
 
-		if (this.props.onDimensionsChanged) {
-			this.props.onDimensionsChanged(dimensions)
+		if (onDimensionsChanged) {
+			onDimensionsChanged(dimensions)
 		}
 	}
 
@@ -46,26 +48,32 @@ export default class Value extends React.Component {
 	}
 
 	renderSymbol() {
-		const code = this.props.data.codePoint
+		const { data } = this.props
 
-		return specials.has(code)
-			? <span className="value__special">{ specials.get(code) }</span>
-			: this.props.data.raw
+		return specials.has(data.codePoint)
+			? (
+				<span className={styles.value__special}>
+					{ specials.get(data.codePoint) }
+				</span>
+			)
+			: data.raw
 	}
 
 	renderBaseline() {
-		if (this.state.dimensions) {
-			return <div className="baseline" style={{ top: this.state.dimensions.baseline }} />
+		const { dimensions } = this.state
+
+		if (dimensions) {
+			return <div className='value__baseline' style={{ top: dimensions.baseline }} />
 		}
 	}
 
 	render() {
 		return (
-			<div className="node value" style={ this.props.style } ref={ el => this.el = el }>
-				<div className="value__body">
+			<div className='node value' style={this.props.style} ref={el => this.el = el}>
+				<div className='value__body'>
 					{ this.renderSymbol() }
 				</div>
-				{/*{ this.renderBaseline() }*/}
+				{ this.renderBaseline() }
 			</div>
 		)
 	}

@@ -38,8 +38,8 @@ export default class Dot extends React.Component {
 
 	render() {
 		return (
-			<span className="node value" style={this.props.style} ref={el => this.el = el}>
-				<span className="dot">any</span>
+			<span className='node value' style={this.props.style} ref={el => this.el = el}>
+				<span className='dot'>any</span>
 			</span>
 		)
 	}

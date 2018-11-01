@@ -38,16 +38,16 @@ export default class CharacterClassRange extends React.Component {
 
 	renderBaseline() {
 		if (this.state.dimensions) {
-			return <div className="baseline" style={{ top: this.state.dimensions.baseline }} />
+			return <div className='baseline' style={{ top: this.state.dimensions.baseline }} />
 		}
 	}
 
 	render() {
 		return (
-			<div className="node character-class-range" style={this.props.style} ref={el => this.el = el}>
-				<div className="character-class-range__body">
+			<div className='node character-class-range' style={this.props.style} ref={el => this.el = el}>
+				<div className='character-class-range__body'>
 					{ this.props.data.min.raw }
-					<span className="character-class-range__delimiter">…</span>
+					<span className='character-class-range__delimiter'>…</span>
 					{ this.props.data.max.raw }
 				</div>
 				{/*{ this.renderBaseline() }*/}

@@ -39,14 +39,14 @@ export default class Anchor extends React.Component {
 
 	renderBaseline() {
 		if (this.state.dimensions) {
-			return <div className="baseline" style={{ top: this.state.dimensions.baseline }} />
+			return <div className='baseline' style={{ top: this.state.dimensions.baseline }} />
 		}
 	}
 
 	render() {
 		return (
-			<span className="node anchor" style={ this.props.style } ref={ el => this.el = el }>
-				<div className="anchor__body">
+			<span className='node anchor' style={this.props.style} ref={el => this.el = el}>
+				<div className='anchor__body'>
 					{ this.props.data.kind }
 				</div>
 				{/*{ this.renderBaseline() }*/}

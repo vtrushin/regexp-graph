@@ -88,11 +88,11 @@ export default class Disjunction extends React.Component {
 
 			return (
 				<Node
-					{ ...this.props }
-					style={ null }
-					data={ node }
-					onDimensionsChanged={ dimensions => this.childrenDimensions[i] = dimensions }
-					key={ i }
+					{...this.props}
+					style={null}
+					data={node}
+					onDimensionsChanged={dimensions => this.childrenDimensions[i] = dimensions}
+					key={i}
 				/>
 			)
 		})
@@ -100,7 +100,7 @@ export default class Disjunction extends React.Component {
 
 	render() {
 		return (
-			<div className="node disjunction" style={ this.props.style } ref={ el => this.el = el }>
+			<div className='node disjunction' style={this.props.style} ref={el => this.el = el}>
 				{ this.renderConnectors() }
 				{ this.renderChildren() }
 			</div>

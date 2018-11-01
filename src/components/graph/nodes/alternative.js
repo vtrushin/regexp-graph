@@ -172,7 +172,7 @@ export default class Alternative extends React.Component {
 		const { dimensions } = this.state
 
 		if (dimensions) {
-			return <div className="baseline" style={{ top: dimensions.baseline }} />
+			return <div className='baseline' style={{ top: dimensions.baseline }} />
 		}
 	}
 

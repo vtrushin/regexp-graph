@@ -47,8 +47,8 @@ export default class CharacterClassEscape extends React.Component {
 
 	render() {
 		return (
-			<span className="node character-class-escape" ref={ el => this.el = el }>
-				<span className="character-class-escape__symbol">
+			<span className='node character-class-escape' ref={el => this.el = el}>
+				<span className='character-class-escape__symbol'>
 					{ types[this.props.data.value] }
 				</span>
 			</span>

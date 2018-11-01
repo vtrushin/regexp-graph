@@ -38,14 +38,14 @@ export default class Reference extends React.Component {
 
 	renderBaseline() {
 		if (this.state.dimensions) {
-			return <div className="baseline" style={{ top: this.state.dimensions.baseline }} />
+			return <div className='baseline' style={{ top: this.state.dimensions.baseline }} />
 		}
 	}
 
 	render() {
 		return (
-			<div className="node reference" style={ this.props.style } ref={ el => this.el = el }>
-				<div className="reference__body">
+			<div className='node reference' style={this.props.style} ref={el => this.el = el}>
+				<div className='reference__body'>
 					{ this.props.data.raw }
 				</div>
 				{ this.renderBaseline() }
